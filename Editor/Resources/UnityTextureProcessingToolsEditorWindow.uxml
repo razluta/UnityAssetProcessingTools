@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Template name="BT_Tab" src="BT_Tab.uxml" />
+    <ui:Template name="CS_FilterTab" src="CS_FilterTab.uxml" />
+    <ui:Template name="CS_Version" src="CS_Version.uxml" />
+    <ui:VisualElement name="VE_Background" style="flex-grow: 1; background-color: rgb(56, 56, 56);">
+        <Style src="UnityTextureProcessingToolsEditorWindow.uss" />
+        <ui:VisualElement name="VE_Tabs" style="flex-direction: row; align-items: center; justify-content: center; margin-top: 8px; margin-bottom: 8px; background-color: rgb(56, 56, 56);">
+            <ui:Instance template="BT_Tab" name="BT_Filter" />
+        </ui:VisualElement>
+        <ui:Instance template="CS_FilterTab" name="CS_FilterTab" style="flex-grow: 1;" />
+        <ui:Instance template="CS_Version" name="CS_Version" />
+    </ui:VisualElement>
+</ui:UXML>
