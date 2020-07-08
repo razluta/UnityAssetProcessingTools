@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="VE_ContentsMain" style="flex-grow: 1; background-color: rgb(56, 56, 56); border-left-width: 0; border-right-width: 0; border-top-width: 1.5px; border-bottom-width: 1.5px; border-top-color: rgb(36, 36, 36); border-bottom-color: rgb(36, 36, 36);">
+        <ui:VisualElement name="VE_ContentsBackground" style="margin-left: 6px; margin-right: 6px; margin-top: 6px; margin-bottom: 6px; flex-grow: 1; background-color: rgb(41, 41, 41); padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px;">
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:Label text="Resize all filtered textures ..." />
+                <ui:Label text="... by doing the following ..." style="margin-bottom: 3px;" />
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Label text="change width to" style="flex-shrink: 1; justify-content: center; -unity-text-align: middle-center;" />
+                    <ui:TextField picking-mode="Ignore" style="flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Label text="change height to" style="flex-shrink: 1; justify-content: center; -unity-text-align: middle-center;" />
+                    <ui:TextField picking-mode="Ignore" style="flex-grow: 1;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button text="RENAME" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; padding-left: 1px; padding-right: 1px; margin-left: 0; margin-right: 0; margin-top: 3px; margin-bottom: 0; padding-top: 6px; padding-bottom: 6px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
