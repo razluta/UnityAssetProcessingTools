@@ -1,1 +1,27 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">    <ui:Template name="CS_FilterActive" />    <ui:Template name="BT_Tab" />    <ui:Template name="CS_SingleSelection" />    <ui:Template name="CS_RenamingTab" />    <ui:Template name="CS_Version" />    <ui:VisualElement name="VE_Background" style="flex-grow: 1; background-color: rgb(56, 56, 56);">        <ui:Instance template="CS_FilterActive" style="flex-direction: column-reverse; flex-shrink: 0;" />        <ui:VisualElement name="VE_Tabs" style="flex-direction: row; align-items: center; justify-content: center; margin-top: 8px; margin-bottom: 8px; background-color: rgb(56, 56, 56); flex-shrink: 0;">            <ui:Instance template="BT_Tab" name="BT_FilterTab" style="display: flex;" />            <ui:Instance template="BT_Tab" name="BT_RenamingTab" />        </ui:VisualElement>        <ui:VisualElement name="VE_BigContainer" style="flex-grow: 1; flex-shrink: 0;">            <ui:VisualElement name="VE_FilterTab" style="flex-grow: 1; flex-shrink: 0; display: flex;">                <ui:Instance template="CS_SingleSelection" name="CS_SingleSelection" style="border-top-width: 1.5px; border-bottom-width: 1.5px; border-left-color: rgb(36, 36, 36); border-right-color: rgb(36, 36, 36); border-top-color: rgb(36, 36, 36); border-bottom-color: rgb(36, 36, 36);" />                <ui:Label text="or" name="LB_Or" style="color: rgb(190, 190, 190); -unity-text-align: upper-center; padding-left: 0; padding-right: 0; margin-left: 3px; margin-right: 3px; margin-top: 0; margin-bottom: 3px;" />            </ui:VisualElement>            <ui:VisualElement name="VE_RenamingTab" style="flex-grow: 1; flex-shrink: 0;">                <ui:Instance template="CS_RenamingTab" name="CS_RenamingTab" />            </ui:VisualElement>        </ui:VisualElement>        <ui:Instance template="CS_Version" name="CS_Version" style="flex-shrink: 0;" />    </ui:VisualElement></ui:UXML>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Template name="CS_FilterActive" src="CS_FilterActive.uxml" />
+    <ui:Template name="BT_Tab" src="BT_Tab.uxml" />
+    <ui:Template name="CS_SingleSelection" src="CS_SingleSelection.uxml" />
+    <ui:Template name="CS_RenamingTab" src="CS_RenamingTab.uxml" />
+    <ui:Template name="CS_ResizingTab" src="CS_ResizingTab.uxml" />
+    <ui:Template name="CS_Version" src="CS_Version.uxml" />
+    <ui:Template name="CS_FilterAllAssetsTab" src="CS_FilterAllAssetsTab.uxml" />
+    <ui:VisualElement name="VE_Background" style="flex-grow: 1; background-color: rgb(56, 56, 56);">
+        <ui:Instance template="CS_FilterActive" style="flex-direction: column-reverse; flex-shrink: 0;" />
+        <ui:VisualElement name="VE_Tabs" style="flex-direction: row; align-items: center; justify-content: center; margin-top: 8px; margin-bottom: 8px; background-color: rgb(56, 56, 56); flex-shrink: 0;">
+            <ui:Instance template="BT_Tab" name="BT_FilterTab" style="display: flex;" />
+            <ui:Instance template="BT_Tab" name="BT_RenamingTab" />
+        </ui:VisualElement>
+        <ui:VisualElement name="VE_BigContainer" style="flex-grow: 1; flex-shrink: 0;">
+            <ui:VisualElement name="VE_FilterTab" style="flex-grow: 1; flex-shrink: 0; display: flex;">
+                <ui:Instance template="CS_SingleSelection" name="CS_SingleSelection" style="border-top-width: 1.5px; border-bottom-width: 1.5px; border-left-color: rgb(36, 36, 36); border-right-color: rgb(36, 36, 36); border-top-color: rgb(36, 36, 36); border-bottom-color: rgb(36, 36, 36);" />
+                <ui:Label text="or" name="LB_Or" style="color: rgb(190, 190, 190); -unity-text-align: upper-center; padding-left: 0; padding-right: 0; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 0;" />
+                <ui:VisualElement name="VE_Tabs" style="flex-direction: row; align-items: center; justify-content: center; margin-top: 8px; margin-bottom: 8px; background-color: rgb(56, 56, 56); flex-shrink: 0;">
+                    <ui:Instance template="BT_Tab" name="BT_AllAssetTypesTab" style="display: flex;" />
+                </ui:VisualElement>
+                <ui:Instance template="CS_FilterAllAssetsTab" name="CS_FilterAllAssetsTab" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Instance template="CS_Version" name="CS_Version" style="flex-shrink: 0;" />
+    </ui:VisualElement>
+</ui:UXML>
