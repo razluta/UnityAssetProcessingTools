@@ -3,9 +3,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UnityTextureProcessingTools.Editor
+namespace UnityAssetProcessingTools.Editor
 {
-    public class UnityTextureProcessingTools : EditorWindow                                                                                  
+    public class UnityAssetProcessingTools : EditorWindow                                                                                  
     {                                                                                                                                        
         private VisualElement _root;   
 
@@ -17,14 +17,14 @@ namespace UnityTextureProcessingTools.Editor
         private VisualElement _renamingTabVisualElement;
         private VisualElement _resizingTabVisualElement;
                                                                                                                                              
-        [MenuItem("Art Tools/Texture Processing Tools")]                                                                                     
+        [MenuItem("Art Tools/Launch Asset Processing Tools")]                                                                                     
         public static void ShowWindow()                                                                                                      
         {                                                                                                                                    
             // Opens the window, otherwise focuses it if it’s already open.                                                                  
-            var window = GetWindow<UnityTextureProcessingTools>();                                                                           
+            var window = GetWindow<UnityAssetProcessingTools>();                                                                           
                                                                                                                                              
             // Adds a title to the window.                                                                                                   
-            window.titleContent = new GUIContent("Texture Processing Tools");                                                                
+            window.titleContent = new GUIContent("Asset Processing Tools");                                                                
                                                                                                                                              
             // Sets a minimum size to the window.                                                                                            
             window.minSize = new Vector2(350, 600);                                                                                          
@@ -38,11 +38,11 @@ namespace UnityTextureProcessingTools.Editor
             // Associates a stylesheet to our root. Thanks to inheritance, all root’s                                                        
             // children will have access to it.                                                                                              
             _root.styleSheets.Add(Resources.Load<StyleSheet>(
-                "UnityTextureProcessingToolsEditorWindow"));                                    
+                "UnityAssetProcessingToolsEditorWindow"));                                    
                                                                                                                                              
             // Loads and clones our VisualTree (eg. our UXML structure) inside the root.                                                     
             var mainVisualTree = Resources.Load<VisualTreeAsset>(
-                "UnityTextureProcessingToolsEditorWindow");                                 
+                "UnityAssetProcessingToolsEditorWindow");                                 
             mainVisualTree.CloneTree(_root);
             
             // Get references to the tab buttons
@@ -51,20 +51,8 @@ namespace UnityTextureProcessingTools.Editor
             filterTabButton.text = "Filter";
             filterTabButton.clickable.clicked += () => ShowFilterTab();
 
-            _renamingTabTemplateContainer = _root.Q<TemplateContainer>("BT_RenamingTab");
-            var renamingTabButton = (Button) _renamingTabTemplateContainer.Children().ToArray()[0];
-            renamingTabButton.text = "Renaming";
-            renamingTabButton.clickable.clicked += () => ShowRenamingTab();
-            
-            _resizingTabTemplateContainer = _root.Q<TemplateContainer>("BT_ResizingTab");
-            var resizingTabButton = (Button) _resizingTabTemplateContainer.Children().ToArray()[0];
-            resizingTabButton.text = "Resizing";
-            resizingTabButton.clickable.clicked += () => ShowResizingTab();
-
             // Get references to the tab contents
             _filterTabVisualElement = _root.Q<VisualElement>("VE_FilterTab");
-            _renamingTabVisualElement = _root.Q<VisualElement>("VE_RenamingTab");
-            _resizingTabVisualElement = _root.Q<VisualElement>("VE_ResizingTab");
 
             // Initiate default state
             ShowFilterTab();
@@ -73,8 +61,6 @@ namespace UnityTextureProcessingTools.Editor
         private void HideAllTabs()
         {
             // _filterTabVisualElement.Clear();
-            _renamingTabVisualElement.Clear();
-            _resizingTabVisualElement.Clear();
         }
         
         private void ShowFilterTab()
@@ -82,14 +68,5 @@ namespace UnityTextureProcessingTools.Editor
             HideAllTabs();
         }
         
-        private void ShowRenamingTab()
-        {
-            HideAllTabs();
-        }
-        
-        private void ShowResizingTab()
-        {
-            HideAllTabs();
-        }
     }                                                                                                                                        
 }
