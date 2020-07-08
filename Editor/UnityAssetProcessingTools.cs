@@ -50,6 +50,11 @@ namespace UnityAssetProcessingTools.Editor
             var filterTabButton = (Button) _filterTabTemplateContainer.Children().ToArray()[0];
             filterTabButton.text = "Filter";
             filterTabButton.clickable.clicked += () => ShowFilterTab();
+            
+            _renamingTabTemplateContainer = _root.Q<TemplateContainer>("BT_RenamingTab");
+            var renamingTabButton = (Button) _renamingTabTemplateContainer.Children().ToArray()[0];
+            renamingTabButton.text = "Renaming";
+            renamingTabButton.clickable.clicked += () => ShowFilterTab();
 
             // Get references to the tab contents
             _filterTabVisualElement = _root.Q<VisualElement>("VE_FilterTab");
