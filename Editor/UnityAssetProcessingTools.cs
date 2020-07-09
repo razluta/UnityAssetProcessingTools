@@ -23,6 +23,9 @@ namespace UnityAssetProcessingTools.Editor
         private Button _allAssetTypeTabButton;
         private VisualTreeAsset _filterAllAssetsVisualTreeAsset;
         private VisualElement _filterAllAssetsTabContentsVisualElement;
+        private Button _browse;
+        private string _browsePath = null;
+        private Label _pathLabel;
         private VisualTreeAsset _versionInfoVisualTreeAsset;
         private VisualElement _versionInfoVisualElement;
 
@@ -115,6 +118,11 @@ namespace UnityAssetProcessingTools.Editor
             _filterAllAssetsTabContentsVisualElement.style.flexShrink = 0;
             _filterAllAssetsTabContentsVisualElement.style.flexGrow = 1;
             
+            // Browse Button
+            _browse = _root.Q<Button>("BT_Browse");
+            _browse.clickable.clicked += () => Browse();
+            _pathLabel = _root.Q<Label>("LB_BrowsePath");
+
             // Version info
             _versionInfoVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_Version");
             _versionInfoVisualTreeAsset.CloneTree(_root);
@@ -137,6 +145,15 @@ namespace UnityAssetProcessingTools.Editor
         {
             HideAllTabs();
         }
-        
+
+        private void Browse()
+        {
+            var path = EditorUtility.OpenFolderPanel("", "", "");
+            if (path.Length != 0)
+            {
+                _browsePath = path;
+                _pathLabel.text = _browsePath;
+            }
+        }
     }                                                                                                                                        
 }
