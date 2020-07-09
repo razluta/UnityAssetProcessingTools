@@ -1,5 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="VE_SingleSelection" style="background-color: rgb(41, 41, 41); margin-left: 6px; margin-right: 6px; margin-top: 6px; margin-bottom: 6px; padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px;">
-        <uie:ObjectField label="Single Selection" style="color: rgba(209, 209, 209, 255);" />
-    </ui:VisualElement>
-</ui:UXML>
