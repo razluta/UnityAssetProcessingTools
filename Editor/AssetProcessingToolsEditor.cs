@@ -206,12 +206,12 @@ namespace UnityAssetProcessingTools.Editor
                 };
             }
 
-            _filter = GetCurrentFilter(_filterData);
+            _filter = CreateCurrentFilter(_filterData);
             AssetProcessingTools.SetFilter(_filter, _filterPath);
             AssetDatabase.Refresh();
         }
 
-        private ActiveFilter GetCurrentFilter(Dictionary<string, string> data)
+        private ActiveFilter CreateCurrentFilter(Dictionary<string, string> data)
         {
             var activeFilter = new ActiveFilter();
 

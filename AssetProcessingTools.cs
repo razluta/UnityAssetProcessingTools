@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityAssetProcessingTools.SystemUtilities;
+using UnityEngine;
 
 namespace UnityAssetProcessingTools
 {

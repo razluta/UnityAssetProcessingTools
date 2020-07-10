@@ -13,7 +13,15 @@ namespace UnityAssetProcessingTools.SystemUtilities
         
         public static void SetData(Dictionary<string, string> data, string path)
         {
-            var jsonData = JsonUtility.ToJson(data);
+            Debug.Log("In SetData(), BrowsePath is " + data[AssetProcessingTools.BrowsePath]);
+
+            foreach (var line in data)
+            {
+                Debug.Log(line);
+            }
+            
+            var jsonData = JsonUtility.ToJson(data, true);
+            Debug.Log(jsonData);
             System.IO.File.WriteAllText(path, jsonData);
         }
     }
