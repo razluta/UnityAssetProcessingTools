@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -24,6 +25,7 @@ namespace UnityAssetProcessingTools.Editor
         private VisualElement _filterAllAssetsTabContentsVisualElement;
         private Button _browse;
         private Button _save;
+        private Button _load;
         private Label _pathLabel;
         private VisualTreeAsset _versionInfoVisualTreeAsset;
         private VisualElement _versionInfoVisualElement;
@@ -103,13 +105,13 @@ namespace UnityAssetProcessingTools.Editor
             _filterTabButton = _root.Q<Button>("BT_Tab");
             _filterTabButton.name = "BT_FilterTab";
             _filterTabButton.text = "Filter";
-            _filterTabButton.clickable.clicked += () => ShowFilterTab();
+            _filterTabButton.clickable.clicked += ShowFilterTab;
             
             _tabButtonVisualTreeAsset.CloneTree(_toolsTabsVisualElement);
             _renamingTabButton = _root.Q<Button>("BT_Tab");
             _renamingTabButton.name = "BT_RenamingTab";
             _renamingTabButton.text = "Renaming";
-            _renamingTabButton.clickable.clicked += () => ShowRenamingTab();
+            _renamingTabButton.clickable.clicked += ShowRenamingTab;
             
             // Asset Type Tab
             _assetTypesVisualElement = new VisualElement();
@@ -136,12 +138,16 @@ namespace UnityAssetProcessingTools.Editor
             
             // Browse Button
             _browse = _root.Q<Button>("BT_Browse");
-            _browse.clickable.clicked += () => Browse();
+            _browse.clickable.clicked += Browse;
             _pathLabel = _root.Q<Label>("LB_BrowsePath");
             
             // Save Button
             _save = _root.Q<Button>("BT_Save");
             _save.clickable.clicked += () => SaveFilter(AssetProcessingTools.AssetTypes.AllAssetTypes);
+            
+            // Save Button
+            _load = _root.Q<Button>("BT_Load");
+            _load.clickable.clicked += LoadFilter;
 
             // Version info
             _versionInfoVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_Version");
@@ -149,6 +155,9 @@ namespace UnityAssetProcessingTools.Editor
             _versionInfoVisualElement = _root.Q<VisualElement>("CS_Version");
             _versionInfoVisualElement.style.flexShrink = 0;
             _versionInfoVisualElement.style.flexGrow = 0;
+            
+            // Bind Ui to Data
+            
         }
 
         private void BindFilterToUi(ActiveFilter filter)
@@ -186,12 +195,7 @@ namespace UnityAssetProcessingTools.Editor
         {
             _filterPath = EditorUtility.SaveFilePanel(
                 "", "", "filter_data", "json");
-            
-            if (_filterPath.Length == 0)
-            {
-                return;
-            }
-            
+
             // TODO convert IF to a SWITCH and add the other types
             if (assetType == AssetProcessingTools.AssetTypes.AllAssetTypes)
             {
@@ -243,5 +247,12 @@ namespace UnityAssetProcessingTools.Editor
             return activeFilter;
         }
 
+        private void LoadFilter()
+        {
+            _filterPath = EditorUtility.OpenFilePanel("", "", "json");
+            _filter = AssetProcessingTools.GetFilter(_filterPath);
+
+            Debug.Log(_filter);
+        }
     }                                                                                                                                        
 }
