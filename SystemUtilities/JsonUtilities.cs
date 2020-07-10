@@ -1,28 +1,22 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace UnityAssetProcessingTools.SystemUtilities
 {
     public static class JsonUtilities
     {
-        public static Dictionary<string, string> GetData(string path)
+        public static ActiveFilter GetData(string path)
         {
-            var data = new Dictionary<string, string>();
-            return data;
+            var file = File.OpenText(path);
+            var serializers = new JsonSerializer();
+            var filter = (ActiveFilter) serializers.Deserialize(file, typeof(ActiveFilter));
+            return filter;
         }
         
-        public static void SetData(Dictionary<string, string> data, string path)
+        public static void SetData(ActiveFilter data, string path)
         {
-            Debug.Log("In SetData(), BrowsePath is " + data[AssetProcessingTools.BrowsePath]);
-
-            foreach (var line in data)
-            {
-                Debug.Log(line);
-            }
-            
-            var jsonData = JsonUtility.ToJson(data, true);
-            Debug.Log(jsonData);
-            System.IO.File.WriteAllText(path, jsonData);
+            File.WriteAllText(path, JsonConvert.SerializeObject(data));
         }
     }
 }

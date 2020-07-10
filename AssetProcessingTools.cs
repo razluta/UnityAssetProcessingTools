@@ -23,55 +23,23 @@ namespace UnityAssetProcessingTools
 
         public static ActiveFilter GetFilter(string path=null)
         {
-            var activeFilter = new ActiveFilter();
-            
-            if (path == null)
+            if (String.IsNullOrWhiteSpace(path))
             {
-                return activeFilter;
+                return new ActiveFilter();
             }
             
-            var data = JsonUtilities.GetData(path);
-            
-            if(data.ContainsKey(BrowsePath))
-            {
-                activeFilter.BrowsePath = data[BrowsePath];
-            }
-            if(data.ContainsKey(IsRecursive))
-            {
-                activeFilter.IsRecursive = Convert.ToBoolean(data[IsRecursive]);
-            }
-            if(data.ContainsKey(NameStartsWith))
-            {
-                activeFilter.NameStartsWith = data[NameStartsWith];
-            }
-            if(data.ContainsKey(NameContains))
-            {
-                activeFilter.NameContains = data[NameContains];
-            }
-            if (data.ContainsKey(NameEndsWith))
-            {
-                activeFilter.NameEndsWith = data[NameEndsWith];
-            }
-            if (data.ContainsKey(DiskSize))
-            {
-                activeFilter.DiskSize = Convert.ToInt32(data[DiskSize]);
-            }
-
+            var activeFilter = JsonUtilities.GetData(path);
             return activeFilter;
         }
 
         public static void SetFilter(ActiveFilter filter, string path)
         {
-            var data = new Dictionary<string, string>() {};
+            if (String.IsNullOrWhiteSpace(path))
+            {
+                return;
+            }
             
-            data[BrowsePath] = filter.BrowsePath;
-            data[IsRecursive] = filter.IsRecursive.ToString();
-            data[NameStartsWith] = filter.NameStartsWith;
-            data[NameContains] = filter.NameContains;
-            data[NameEndsWith] = filter.NameEndsWith;
-            data[DiskSize] = filter.DiskSize.ToString();
-            
-            JsonUtilities.SetData(data, path);
+            JsonUtilities.SetData(filter, path);
         }
     }
 }
