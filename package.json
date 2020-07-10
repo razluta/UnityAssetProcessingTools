@@ -1,0 +1,10 @@
+{
+  "author": "Razvan Luta",
+  "description": "A set of Unity Asset Processing Tools like: renaming, resizing, type conversion, generation, cropping and analysis.",
+  "displayName": "Unity Asset Processing Tools",
+  "license": "MIT",
+  "name": "com.razluta.unityassetprocessingtools",
+  "unity": "2019.3",
+  "unityRelease": "0f1",
+  "version": "1.0.0"
+}
