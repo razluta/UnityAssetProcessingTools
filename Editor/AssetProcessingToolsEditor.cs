@@ -14,6 +14,12 @@ namespace UnityAssetProcessingTools.Editor
         private VisualElement _root;
         private VisualTreeAsset _mainVisualTree;
 
+        private VisualTreeAsset _wideButtonVisualTreeAsset;
+        private Button _loadFilterButton;
+        private Button _saveFilterButton;
+        private Button _clearFilterButton;
+        private Button _confirmFilterButton;
+            
         private VisualTreeAsset _activeFilterVisualTreeAsset;
         private VisualElement _toolsTabsVisualElement;
         private VisualTreeAsset _tabButtonVisualTreeAsset;
@@ -26,9 +32,6 @@ namespace UnityAssetProcessingTools.Editor
         private VisualTreeAsset _filterAllAssetsVisualTreeAsset;
         private VisualElement _filterAllAssetsTabContentsVisualElement;
         private Button _browse;
-        private Button _save;
-        private Button _load;
-        private Button _clear;
         private Label _pathLabel;
         private VisualTreeAsset _versionInfoVisualTreeAsset;
         private VisualElement _versionInfoVisualElement;
@@ -86,35 +89,43 @@ namespace UnityAssetProcessingTools.Editor
         private void InitUi()
         {
             // Active filter
-            _activeFilterVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterActive");
-            _activeFilterVisualTreeAsset.CloneTree(_root);
-            _filter = AssetProcessingTools.GetFilter();
+            // _activeFilterVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterActive");
+            // _activeFilterVisualTreeAsset.CloneTree(_root);
+            // _filter = AssetProcessingTools.GetFilter();
             
-            // Tools tabs
-            _toolsTabsVisualElement = new VisualElement();
-            _root.Add(_toolsTabsVisualElement);
-            _toolsTabsVisualElement.style.flexDirection = FlexDirection.Row;
-            _toolsTabsVisualElement.style.flexShrink = 0;
-            _toolsTabsVisualElement.style.flexGrow = 0;
-            _toolsTabsVisualElement.style.marginBottom = 8;
-            _toolsTabsVisualElement.style.marginTop = 8;
-            _toolsTabsVisualElement.style.alignItems = Align.Center;
-            _toolsTabsVisualElement.style.justifyContent = Justify.Center;
-            
+            // // Tools tabs
+            // _toolsTabsVisualElement = new VisualElement();
+            // _root.Add(_toolsTabsVisualElement);
+            // _toolsTabsVisualElement.style.flexDirection = FlexDirection.Row;
+            // _toolsTabsVisualElement.style.flexShrink = 0;
+            // _toolsTabsVisualElement.style.flexGrow = 0;
+            // _toolsTabsVisualElement.style.marginBottom = 8;
+            // _toolsTabsVisualElement.style.marginTop = 8;
+            // _toolsTabsVisualElement.style.alignItems = Align.Center;
+            // _toolsTabsVisualElement.style.justifyContent = Justify.Center;
+            //
             _tabButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_Tab");
+            //
+            // _tabButtonVisualTreeAsset.CloneTree(_toolsTabsVisualElement);
+            // _filterTabButton = _root.Q<Button>("BT_Tab");
+            // _filterTabButton.name = "BT_FilterTab";
+            // _filterTabButton.text = "Filter";
+            // _filterTabButton.clickable.clicked += ShowFilterTab;
+            //
+            // _tabButtonVisualTreeAsset.CloneTree(_toolsTabsVisualElement);
+            // _renamingTabButton = _root.Q<Button>("BT_Tab");
+            // _renamingTabButton.name = "BT_RenamingTab";
+            // _renamingTabButton.text = "Renaming";
+            // _renamingTabButton.clickable.clicked += ShowRenamingTab;
             
-            _tabButtonVisualTreeAsset.CloneTree(_toolsTabsVisualElement);
-            _filterTabButton = _root.Q<Button>("BT_Tab");
-            _filterTabButton.name = "BT_FilterTab";
-            _filterTabButton.text = "Filter";
-            _filterTabButton.clickable.clicked += ShowFilterTab;
-            
-            _tabButtonVisualTreeAsset.CloneTree(_toolsTabsVisualElement);
-            _renamingTabButton = _root.Q<Button>("BT_Tab");
-            _renamingTabButton.name = "BT_RenamingTab";
-            _renamingTabButton.text = "Renaming";
-            _renamingTabButton.clickable.clicked += ShowRenamingTab;
-            
+            // Load Filter Button
+            _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
+            _wideButtonVisualTreeAsset.CloneTree(_root);
+            _loadFilterButton = _root.Q<Button>("BT_WideButton");
+            _loadFilterButton.name = "BT_LoadFilter";
+            _loadFilterButton.text = "LOAD FILTER";
+            _loadFilterButton.clickable.clicked += LoadFilter;
+
             // Asset Type Tab
             _assetTypesVisualElement = new VisualElement();
             _root.Add(_assetTypesVisualElement);
@@ -127,7 +138,7 @@ namespace UnityAssetProcessingTools.Editor
             _assetTypesVisualElement.style.justifyContent = Justify.Center;
             
             _tabButtonVisualTreeAsset.CloneTree(_assetTypesVisualElement);
-            _allAssetTypeTabButton = _filterTabButton = _root.Q<Button>("BT_Tab");
+            _allAssetTypeTabButton = _root.Q<Button>("BT_Tab");
             _allAssetTypeTabButton.name = "BT_AllAssetTypes";
             _allAssetTypeTabButton.text = "All Asset Types";
             
@@ -143,17 +154,29 @@ namespace UnityAssetProcessingTools.Editor
             _browse.clickable.clicked += Browse;
             _pathLabel = _root.Q<Label>("LB_BrowsePath");
             
-            // Save Button
-            _save = _root.Q<Button>("BT_Save");
-            _save.clickable.clicked += () => SaveFilter(AssetProcessingTools.AssetTypes.AllAssetTypes);
+            // Save Filter Button
+            _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
+            _wideButtonVisualTreeAsset.CloneTree(_root);
+            _saveFilterButton = _root.Q<Button>("BT_WideButton");
+            _saveFilterButton.name = "BT_SaveFilter";
+            _saveFilterButton.text = "SAVE FILTER";
+            _saveFilterButton.clickable.clicked += () => SaveFilter(AssetProcessingTools.AssetTypes.AllAssetTypes);
             
-            // Save Button
-            _load = _root.Q<Button>("BT_Load");
-            _load.clickable.clicked += LoadFilter;
+            // Clear Filter Button
+            _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
+            _wideButtonVisualTreeAsset.CloneTree(_root);
+            _clearFilterButton = _root.Q<Button>("BT_WideButton");
+            _clearFilterButton.name = "BT_ClearFilter";
+            _clearFilterButton.text = "CLEAR FILTER";
+            _clearFilterButton.clickable.clicked += ClearFilter;
             
-            // Clear Button
-            _clear = _root.Q<Button>("BT_Clear");
-            _clear.clickable.clicked += ClearFilter;
+            // Clear Filter Button
+            _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
+            _wideButtonVisualTreeAsset.CloneTree(_root);
+            _confirmFilterButton = _root.Q<Button>("BT_WideButton");
+            _confirmFilterButton.name = "BT_ConfirmFilter";
+            _confirmFilterButton.text = "CONFIRM FILTER";
+            _confirmFilterButton.clickable.clicked += ConfirmFilter;
 
             // Version info
             _versionInfoVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_Version");
@@ -265,5 +288,11 @@ namespace UnityAssetProcessingTools.Editor
             _filter = AssetProcessingTools.GetDefaultFilter();
             BindFilterToUi(_filter);
         }
+
+        private void ConfirmFilter()
+        {
+            
+        }
+        
     }                                                                                                                                        
 }
