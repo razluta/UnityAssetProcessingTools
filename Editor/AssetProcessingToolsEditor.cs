@@ -7,8 +7,10 @@ using UnityEngine.UIElements;
 
 namespace UnityAssetProcessingTools.Editor
 {
-    public class AssetProcessingToolsEditor : EditorWindow                                                                                  
-    {                                                                                                                                        
+    public class AssetProcessingToolsEditor : EditorWindow
+    {
+        // private string _version = "v.0.0.1.20200710";
+        
         private VisualElement _root;
         private VisualTreeAsset _mainVisualTree;
 
@@ -26,6 +28,7 @@ namespace UnityAssetProcessingTools.Editor
         private Button _browse;
         private Button _save;
         private Button _load;
+        private Button _clear;
         private Label _pathLabel;
         private VisualTreeAsset _versionInfoVisualTreeAsset;
         private VisualElement _versionInfoVisualElement;
@@ -50,8 +53,7 @@ namespace UnityAssetProcessingTools.Editor
             
             // Setup the filter
             _filter = AssetProcessingTools.GetFilter(_filterPath);
-                
-                                                                                                                                             
+
             // Adds a title to the window.                                                                                                   
             window.titleContent = new GUIContent("Asset Processing Tools");                                                                
                                                                                                                                              
@@ -148,6 +150,10 @@ namespace UnityAssetProcessingTools.Editor
             // Save Button
             _load = _root.Q<Button>("BT_Load");
             _load.clickable.clicked += LoadFilter;
+            
+            // Clear Button
+            _clear = _root.Q<Button>("BT_Clear");
+            _clear.clickable.clicked += ClearFilter;
 
             // Version info
             _versionInfoVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_Version");
@@ -157,12 +163,12 @@ namespace UnityAssetProcessingTools.Editor
             _versionInfoVisualElement.style.flexGrow = 0;
             
             // Bind Ui to Data
-            
+            BindFilterToUi(_filter);
         }
 
         private void BindFilterToUi(ActiveFilter filter)
         {
-            
+            _pathLabel.text = filter.BrowsePath;
         }
         
         private void HideAllTabs()
@@ -251,8 +257,13 @@ namespace UnityAssetProcessingTools.Editor
         {
             _filterPath = EditorUtility.OpenFilePanel("", "", "json");
             _filter = AssetProcessingTools.GetFilter(_filterPath);
+            BindFilterToUi(_filter);
+        }
 
-            Debug.Log(_filter);
+        private void ClearFilter()
+        {
+            _filter = AssetProcessingTools.GetDefaultFilter();
+            BindFilterToUi(_filter);
         }
     }                                                                                                                                        
 }

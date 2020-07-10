@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UnityAssetProcessingTools
 {
-    public class AssetProcessingTools
+    public static class AssetProcessingTools
     {
         public enum AssetTypes
         {
@@ -25,7 +25,7 @@ namespace UnityAssetProcessingTools
         {
             if (String.IsNullOrWhiteSpace(path))
             {
-                return new ActiveFilter();
+                return GetDefaultFilter();
             }
             
             var activeFilter = JsonUtilities.GetData(path);
@@ -40,6 +40,21 @@ namespace UnityAssetProcessingTools
             }
             
             JsonUtilities.SetData(filter, path);
+        }
+
+        public static ActiveFilter GetDefaultFilter()
+        {
+            var filter = new ActiveFilter()
+            {
+                BrowsePath = "C:/",
+                IsRecursive = true,
+                NameStartsWith = "",
+                NameContains = "",
+                NameEndsWith = "",
+                DiskSize = 0
+            };
+
+            return filter;
         }
     }
 }
