@@ -1,13 +1,12 @@
-﻿using System.Linq;
-using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace UnityAssetProcessingTools.Editor
 {
-    public class UnityAssetProcessingTools : EditorWindow                                                                                  
+    public class AssetProcessingToolsEditor : EditorWindow                                                                                  
     {                                                                                                                                        
         private VisualElement _root;
         private VisualTreeAsset _mainVisualTree;
@@ -24,16 +23,32 @@ namespace UnityAssetProcessingTools.Editor
         private VisualTreeAsset _filterAllAssetsVisualTreeAsset;
         private VisualElement _filterAllAssetsTabContentsVisualElement;
         private Button _browse;
-        private string _browsePath = null;
+        private Button _save;
         private Label _pathLabel;
         private VisualTreeAsset _versionInfoVisualTreeAsset;
         private VisualElement _versionInfoVisualElement;
+
+        private static ActiveFilter _filter;
+        private static string _filterPath = string.Empty;
+        
+        private static string _browsePath = string.Empty;
+        private static string _isRecursive = Convert.ToString((bool) true);
+        private static string _nameStartsWith = string.Empty;
+        private static string _nameContains = string.Empty;
+        private static string _nameEndsWith = string.Empty;
+        private static string _diskSize = Convert.ToString((int)0);
+        
+        private Dictionary<string, string> _filterData;
 
         [MenuItem("Art Tools/Launch Asset Processing Tools")]                                                                                     
         public static void ShowWindow()                                                                                                      
         {                                                                                                                                    
             // Opens the window, otherwise focuses it if it’s already open.                                                                  
-            var window = GetWindow<UnityAssetProcessingTools>();                                                                           
+            var window = GetWindow<AssetProcessingToolsEditor>();    
+            
+            // Setup the filter
+            _filter = AssetProcessingTools.GetFilter(_filterPath);
+                
                                                                                                                                              
             // Adds a title to the window.                                                                                                   
             window.titleContent = new GUIContent("Asset Processing Tools");                                                                
@@ -69,6 +84,7 @@ namespace UnityAssetProcessingTools.Editor
             // Active filter
             _activeFilterVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterActive");
             _activeFilterVisualTreeAsset.CloneTree(_root);
+            _filter = AssetProcessingTools.GetFilter();
             
             // Tools tabs
             _toolsTabsVisualElement = new VisualElement();
@@ -122,6 +138,10 @@ namespace UnityAssetProcessingTools.Editor
             _browse = _root.Q<Button>("BT_Browse");
             _browse.clickable.clicked += () => Browse();
             _pathLabel = _root.Q<Label>("LB_BrowsePath");
+            
+            // Save Button
+            _save = _root.Q<Button>("BT_Save");
+            _save.clickable.clicked += () => SaveFilter(AssetProcessingTools.AssetTypes.AllAssetTypes);
 
             // Version info
             _versionInfoVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_Version");
@@ -131,6 +151,11 @@ namespace UnityAssetProcessingTools.Editor
             _versionInfoVisualElement.style.flexGrow = 0;
         }
 
+        private void BindFilterToUi(ActiveFilter filter)
+        {
+            
+        }
+        
         private void HideAllTabs()
         {
             // _filterTabVisualElement.Clear();
@@ -149,11 +174,74 @@ namespace UnityAssetProcessingTools.Editor
         private void Browse()
         {
             var path = EditorUtility.OpenFolderPanel("", "", "");
-            if (path.Length != 0)
+            if (path.Length == 0)
             {
-                _browsePath = path;
-                _pathLabel.text = _browsePath;
+                return;
             }
+            _browsePath = path;
+            _pathLabel.text = _browsePath;
         }
+
+        private void SaveFilter(AssetProcessingTools.AssetTypes assetType)
+        {
+            _filterPath = EditorUtility.SaveFilePanel(
+                "", "", "filter_data", "json");
+            
+            if (_filterPath.Length == 0)
+            {
+                return;
+            }
+            
+            // TODO convert IF to a SWITCH and add the other types
+            if (assetType == AssetProcessingTools.AssetTypes.AllAssetTypes)
+            {
+                _filterData = new Dictionary<string, string>()
+                {
+                    {AssetProcessingTools.BrowsePath, _browsePath},
+                    {AssetProcessingTools.IsRecursive, _isRecursive},
+                    {AssetProcessingTools.NameStartsWith, _nameStartsWith},
+                    {AssetProcessingTools.NameContains, _nameContains},
+                    {AssetProcessingTools.NameEndsWith, _nameEndsWith},
+                    {AssetProcessingTools.DiskSize, _diskSize}
+                };
+            }
+
+            _filter = GetCurrentFilter(_filterData);
+            AssetProcessingTools.SetFilter(_filter, _filterPath);
+            AssetDatabase.Refresh();
+        }
+
+        private ActiveFilter GetCurrentFilter(Dictionary<string, string> data)
+        {
+            var activeFilter = new ActiveFilter();
+
+            if(data.ContainsKey(AssetProcessingTools.BrowsePath))
+            {
+                activeFilter.BrowsePath = data[AssetProcessingTools.BrowsePath];
+            }
+            if(data.ContainsKey(AssetProcessingTools.IsRecursive))
+            {
+                activeFilter.IsRecursive = Convert.ToBoolean(data[AssetProcessingTools.IsRecursive]);
+            }
+            if(data.ContainsKey(AssetProcessingTools.NameStartsWith))
+            {
+                activeFilter.NameStartsWith = data[AssetProcessingTools.NameStartsWith];
+            }
+            if(data.ContainsKey(AssetProcessingTools.NameContains))
+            {
+                activeFilter.NameContains = data[AssetProcessingTools.NameContains];
+            }
+            if (data.ContainsKey(AssetProcessingTools.NameEndsWith))
+            {
+                activeFilter.NameEndsWith = data[AssetProcessingTools.NameEndsWith];
+            }
+            if (data.ContainsKey(AssetProcessingTools.DiskSize))
+            {
+                activeFilter.DiskSize = Convert.ToInt32(data[AssetProcessingTools.DiskSize]);
+            }
+
+            return activeFilter;
+        }
+
     }                                                                                                                                        
 }

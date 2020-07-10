@@ -1,15 +1,14 @@
-﻿namespace UnityAssetProcessingTools
+﻿using System.Collections.Generic;
+
+namespace UnityAssetProcessingTools
 {
     public class ActiveFilter
     {
-        private string AssetDirectoryPath { get; set; }
-        private bool IsDirectorySearchRecursive { get; set; }
-        private string NameStartsWith  { get; set; }
-        private string NameContains  { get; set; }
-        private string NameEndsWith  { get; set; }
-        private int DiskSize  { get; set; }
+        public string BrowsePath { get; set; }
+        public bool IsRecursive { get; set; }
+        public string NameStartsWith  { get; set; }
+        public string NameContains  { get; set; }
+        public string NameEndsWith  { get; set; }
+        public int DiskSize  { get; set; }
     }
 }
-
-
-

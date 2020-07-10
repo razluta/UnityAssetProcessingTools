@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace UnityAssetProcessingTools.AssetUtilities
 {
-    public class TextureUtilities
+    public static class TextureUtilities
     {
         public enum TextureUtilitiesFormats
         {
