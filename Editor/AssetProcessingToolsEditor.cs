@@ -126,7 +126,7 @@ namespace UnityAssetProcessingTools.Editor
             _assetTypesVisualElement.style.flexDirection = FlexDirection.Row;
             _assetTypesVisualElement.style.flexShrink = 0;
             _assetTypesVisualElement.style.flexGrow = 0;
-            _assetTypesVisualElement.style.marginBottom = 8;
+            // _assetTypesVisualElement.style.marginBottom = 8;
             _assetTypesVisualElement.style.marginTop = 8;
             _assetTypesVisualElement.style.alignItems = Align.Center;
             _assetTypesVisualElement.style.justifyContent = Justify.Center;
@@ -192,7 +192,7 @@ namespace UnityAssetProcessingTools.Editor
             _toolsTabsVisualElement.style.flexDirection = FlexDirection.Row;
             _toolsTabsVisualElement.style.flexShrink = 0;
             _toolsTabsVisualElement.style.flexGrow = 0;
-            _toolsTabsVisualElement.style.marginBottom = 8;
+            // _toolsTabsVisualElement.style.marginBottom = 8;
             _toolsTabsVisualElement.style.marginTop = 8;
             _toolsTabsVisualElement.style.alignItems = Align.Center;
             _toolsTabsVisualElement.style.justifyContent = Justify.Center;
