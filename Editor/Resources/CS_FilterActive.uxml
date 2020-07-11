@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="VE_FilterActive" style="padding-left: 1px; padding-right: 1px; padding-top: 1px; padding-bottom: 1px; margin-left: 2px; margin-right: 2px; margin-top: 2px; margin-bottom: 2px; background-color: rgb(51, 51, 51);">
-        <ui:Label text="active filter: none" name="VE_FilterState" style="-unity-text-align: upper-center; padding-left: 2px; color: rgba(176, 38, 38, 255); padding-top: 3px; padding-bottom: 3px;" />
+    <ui:VisualElement name="VE_FilterActive" style="padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; margin-left: 2px; margin-right: 2px; margin-top: 2px; margin-bottom: 2px; background-color: rgb(51, 51, 51);">
+        <ui:Label text="active filter: none" name="VE_FilterState" style="-unity-text-align: upper-center; padding-left: 2px; color: rgb(176, 38, 38); padding-top: 3px; padding-bottom: 3px;" />
     </ui:VisualElement>
 </ui:UXML>

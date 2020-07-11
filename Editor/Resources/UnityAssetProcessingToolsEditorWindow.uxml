@@ -3,16 +3,22 @@
     <ui:Template name="BT_Tab" src="BT_Tab.uxml" />
     <ui:Template name="CS_FilterAllAssetsTab" src="CS_FilterAllAssetsTab.uxml" />
     <ui:Template name="CS_Version" src="CS_Version.uxml" />
-    <ui:VisualElement name="VE_Background" style="flex-grow: 1; background-color: rgb(56, 56, 56);">
-        <ui:Instance template="CS_FilterActive" style="flex-direction: column-reverse; flex-shrink: 0;" />
-        <ui:VisualElement name="VE_Tabs" style="flex-direction: row; align-items: center; justify-content: center; margin-top: 8px; margin-bottom: 8px; background-color: rgb(56, 56, 56); flex-shrink: 0;">
-            <ui:Instance template="BT_Tab" name="BT_FilterTab" style="display: flex;" />
-            <ui:Instance template="BT_Tab" name="BT_RenamingTab" />
+    <ui:Template name="CS_RenamingTab" src="CS_RenamingTab.uxml" />
+    <ui:VisualElement name="VE_Background" style="flex-grow: 1; background-color: rgb(56, 56, 56); flex-direction: row;">
+        <ui:VisualElement style="flex-grow: 1; flex-shrink: 0; flex-basis: 50%; border-left-color: rgba(0, 0, 0, 255); border-right-color: rgba(0, 0, 0, 255); border-top-color: rgba(0, 0, 0, 255); border-bottom-color: rgba(0, 0, 0, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;">
+            <ui:Instance template="CS_FilterActive" style="flex-direction: column-reverse; flex-shrink: 0;" />
+            <ui:VisualElement name="VE_Tabs" style="flex-direction: row; align-items: center; justify-content: center; margin-top: 8px; margin-bottom: 8px; background-color: rgb(56, 56, 56); flex-shrink: 0;">
+                <ui:Instance template="BT_Tab" name="BT_FilterTab" style="display: flex;" />
+                <ui:Instance template="BT_Tab" name="BT_RenamingTab" />
+            </ui:VisualElement>
+            <ui:VisualElement name="VE_Tabs" style="flex-direction: row; align-items: center; justify-content: center; margin-top: 8px; margin-bottom: 8px; background-color: rgb(56, 56, 56); flex-shrink: 0;">
+                <ui:Instance template="BT_Tab" name="BT_AllAssetTypesTab" style="display: flex;" />
+            </ui:VisualElement>
+            <ui:Instance template="CS_FilterAllAssetsTab" name="CS_FilterAllAssetsTab" />
+            <ui:Instance template="CS_Version" name="CS_Version" style="flex-shrink: 0;" />
         </ui:VisualElement>
-        <ui:VisualElement name="VE_Tabs" style="flex-direction: row; align-items: center; justify-content: center; margin-top: 8px; margin-bottom: 8px; background-color: rgb(56, 56, 56); flex-shrink: 0;">
-            <ui:Instance template="BT_Tab" name="BT_AllAssetTypesTab" style="display: flex;" />
+        <ui:VisualElement style="flex-shrink: 0; flex-grow: 1; flex-basis: 50%; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgba(0, 0, 0, 255); border-right-color: rgba(0, 0, 0, 255); border-top-color: rgba(0, 0, 0, 255); border-bottom-color: rgba(0, 0, 0, 255); opacity: 1; display: flex;">
+            <ui:Instance template="CS_RenamingTab" name="CS_RenamingTab" />
         </ui:VisualElement>
-        <ui:Instance template="CS_FilterAllAssetsTab" name="CS_FilterAllAssetsTab" />
-        <ui:Instance template="CS_Version" name="CS_Version" style="flex-shrink: 0;" />
     </ui:VisualElement>
 </ui:UXML>

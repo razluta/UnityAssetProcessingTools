@@ -23,8 +23,8 @@ namespace UnityAssetProcessingTools.Editor
         private VisualTreeAsset _activeFilterVisualTreeAsset;
         private VisualElement _toolsTabsVisualElement;
         private VisualTreeAsset _tabButtonVisualTreeAsset;
-        private TemplateContainer _filterTabTemplateContainer;
-        private TemplateContainer _renamingTabTemplateContainer;
+        private VisualTreeAsset _filterTabVisualTreeAsset;
+        private VisualTreeAsset _renamingTabVisualTreeAsset;
         private Button _filterTabButton;
         private Button _renamingTabButton;
         private VisualElement _assetTypesVisualElement;
@@ -35,6 +35,7 @@ namespace UnityAssetProcessingTools.Editor
         private Label _pathLabel;
         private VisualTreeAsset _versionInfoVisualTreeAsset;
         private VisualElement _versionInfoVisualElement;
+        private Button _undoOrEditFilterButton;
 
         private static ActiveFilter _filter;
         private static string _filterPath = string.Empty;
@@ -80,44 +81,19 @@ namespace UnityAssetProcessingTools.Editor
             // _mainVisualTree.CloneTree(_root);
 
             // Initiate the GUI
-            InitUi();
+            InitFilterUi();
 
             // Initiate default state
             ShowFilterTab();
         }
 
-        private void InitUi()
+        private void InitFilterUi()
         {
-            // Active filter
-            // _activeFilterVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterActive");
-            // _activeFilterVisualTreeAsset.CloneTree(_root);
-            // _filter = AssetProcessingTools.GetFilter();
+            // Clear Ui
+            _root.Clear();
             
-            // // Tools tabs
-            // _toolsTabsVisualElement = new VisualElement();
-            // _root.Add(_toolsTabsVisualElement);
-            // _toolsTabsVisualElement.style.flexDirection = FlexDirection.Row;
-            // _toolsTabsVisualElement.style.flexShrink = 0;
-            // _toolsTabsVisualElement.style.flexGrow = 0;
-            // _toolsTabsVisualElement.style.marginBottom = 8;
-            // _toolsTabsVisualElement.style.marginTop = 8;
-            // _toolsTabsVisualElement.style.alignItems = Align.Center;
-            // _toolsTabsVisualElement.style.justifyContent = Justify.Center;
-            //
             _tabButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_Tab");
-            //
-            // _tabButtonVisualTreeAsset.CloneTree(_toolsTabsVisualElement);
-            // _filterTabButton = _root.Q<Button>("BT_Tab");
-            // _filterTabButton.name = "BT_FilterTab";
-            // _filterTabButton.text = "Filter";
-            // _filterTabButton.clickable.clicked += ShowFilterTab;
-            //
-            // _tabButtonVisualTreeAsset.CloneTree(_toolsTabsVisualElement);
-            // _renamingTabButton = _root.Q<Button>("BT_Tab");
-            // _renamingTabButton.name = "BT_RenamingTab";
-            // _renamingTabButton.text = "Renaming";
-            // _renamingTabButton.clickable.clicked += ShowRenamingTab;
-            
+
             // Load Filter Button
             _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
             _wideButtonVisualTreeAsset.CloneTree(_root);
@@ -178,20 +154,63 @@ namespace UnityAssetProcessingTools.Editor
             _confirmFilterButton.text = "CONFIRM FILTER";
             _confirmFilterButton.clickable.clicked += ConfirmFilter;
 
+            AddVersionInfoVisualElement();
+            
+            // Bind Ui to Data
+            BindFilterToUi(_filter);
+        }
+
+        private void AddVersionInfoVisualElement()
+        {
             // Version info
             _versionInfoVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_Version");
             _versionInfoVisualTreeAsset.CloneTree(_root);
             _versionInfoVisualElement = _root.Q<VisualElement>("CS_Version");
             _versionInfoVisualElement.style.flexShrink = 0;
             _versionInfoVisualElement.style.flexGrow = 0;
+        }
+
+        private void InitToolsUi()
+        {
+            // Active filter
+            _activeFilterVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterActive");
+            _activeFilterVisualTreeAsset.CloneTree(_root);
+            _filter = AssetProcessingTools.GetFilter();
             
-            // Bind Ui to Data
-            BindFilterToUi(_filter);
+            // Tools tabs
+            _toolsTabsVisualElement = new VisualElement();
+            _root.Add(_toolsTabsVisualElement);
+            _toolsTabsVisualElement.style.flexDirection = FlexDirection.Row;
+            _toolsTabsVisualElement.style.flexShrink = 0;
+            _toolsTabsVisualElement.style.flexGrow = 0;
+            _toolsTabsVisualElement.style.marginBottom = 8;
+            _toolsTabsVisualElement.style.marginTop = 8;
+            _toolsTabsVisualElement.style.alignItems = Align.Center;
+            _toolsTabsVisualElement.style.justifyContent = Justify.Center;
+
+            _tabButtonVisualTreeAsset.CloneTree(_toolsTabsVisualElement);
+            _renamingTabButton = _root.Q<Button>("BT_Tab");
+            _renamingTabButton.name = "BT_RenamingTab";
+            _renamingTabButton.text = "Renaming";
+            _renamingTabButton.clickable.clicked += ShowRenamingTab;
+            
+            // Renaming tab
+            _renamingTabVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_RenamingTab");
+            _renamingTabVisualTreeAsset.CloneTree(_root);
+            
+            // Undo (Edit Filter) Button
+            _wideButtonVisualTreeAsset.CloneTree(_root);
+            _undoOrEditFilterButton = _root.Q<Button>("BT_WideButton");
+            _undoOrEditFilterButton.name = "BT_UndoOrEditFilter";
+            _undoOrEditFilterButton.text = "EDIT FILTER";
+            _undoOrEditFilterButton.clickable.clicked += InitFilterUi;
+
+            AddVersionInfoVisualElement();
         }
 
         private void BindFilterToUi(ActiveFilter filter)
         {
-            _pathLabel.text = filter.BrowsePath;
+            // _pathLabel.text = filter.BrowsePath;
         }
         
         private void HideAllTabs()
@@ -291,7 +310,8 @@ namespace UnityAssetProcessingTools.Editor
 
         private void ConfirmFilter()
         {
-            
+            _root.Clear();
+            InitToolsUi();
         }
         
     }                                                                                                                                        
