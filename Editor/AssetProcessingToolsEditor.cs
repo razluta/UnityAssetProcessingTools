@@ -36,6 +36,7 @@ namespace UnityAssetProcessingTools.Editor
         private VisualTreeAsset _versionInfoVisualTreeAsset;
         private VisualElement _versionInfoVisualElement;
         private Button _undoOrEditFilterButton;
+        private Button _renameButton;
 
         private static ActiveFilter _filter;
         private static string _filterPath = string.Empty;
@@ -101,7 +102,24 @@ namespace UnityAssetProcessingTools.Editor
             _loadFilterButton.name = "BT_LoadFilter";
             _loadFilterButton.text = "LOAD FILTER";
             _loadFilterButton.clickable.clicked += LoadFilter;
+            
+            // Save Filter Button
+            _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
+            _wideButtonVisualTreeAsset.CloneTree(_root);
+            _saveFilterButton = _root.Q<Button>("BT_WideButton");
+            _saveFilterButton.name = "BT_SaveFilter";
+            _saveFilterButton.text = "SAVE FILTER";
+            _saveFilterButton.clickable.clicked += () => SaveFilter(AssetProcessingTools.AssetTypes.AllAssetTypes);
 
+            // Clear Filter Button
+            _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
+            _wideButtonVisualTreeAsset.CloneTree(_root);
+            _clearFilterButton = _root.Q<Button>("BT_WideButton");
+            _clearFilterButton.name = "BT_ClearFilter";
+            _clearFilterButton.text = "CLEAR FILTER";
+            _clearFilterButton = _root.Q<Button>("BT_ClearFilter");
+            _clearFilterButton.clickable.clicked += ClearFilter;
+            
             // Asset Type Tab
             _assetTypesVisualElement = new VisualElement();
             _root.Add(_assetTypesVisualElement);
@@ -129,24 +147,8 @@ namespace UnityAssetProcessingTools.Editor
             _browse = _root.Q<Button>("BT_Browse");
             _browse.clickable.clicked += Browse;
             _pathLabel = _root.Q<Label>("LB_BrowsePath");
-            
-            // Save Filter Button
-            _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
-            _wideButtonVisualTreeAsset.CloneTree(_root);
-            _saveFilterButton = _root.Q<Button>("BT_WideButton");
-            _saveFilterButton.name = "BT_SaveFilter";
-            _saveFilterButton.text = "SAVE FILTER";
-            _saveFilterButton.clickable.clicked += () => SaveFilter(AssetProcessingTools.AssetTypes.AllAssetTypes);
-            
-            // Clear Filter Button
-            _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
-            _wideButtonVisualTreeAsset.CloneTree(_root);
-            _clearFilterButton = _root.Q<Button>("BT_WideButton");
-            _clearFilterButton.name = "BT_ClearFilter";
-            _clearFilterButton.text = "CLEAR FILTER";
-            _clearFilterButton.clickable.clicked += ClearFilter;
-            
-            // Clear Filter Button
+
+            // Confirm Filter Button
             _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
             _wideButtonVisualTreeAsset.CloneTree(_root);
             _confirmFilterButton = _root.Q<Button>("BT_WideButton");
@@ -177,6 +179,13 @@ namespace UnityAssetProcessingTools.Editor
             _activeFilterVisualTreeAsset.CloneTree(_root);
             _filter = AssetProcessingTools.GetFilter();
             
+            // Undo (Edit Filter) Button
+            _wideButtonVisualTreeAsset.CloneTree(_root);
+            _undoOrEditFilterButton = _root.Q<Button>("BT_WideButton");
+            _undoOrEditFilterButton.name = "BT_UndoOrEditFilter";
+            _undoOrEditFilterButton.text = "EDIT FILTER";
+            _undoOrEditFilterButton.clickable.clicked += InitFilterUi;
+            
             // Tools tabs
             _toolsTabsVisualElement = new VisualElement();
             _root.Add(_toolsTabsVisualElement);
@@ -197,13 +206,13 @@ namespace UnityAssetProcessingTools.Editor
             // Renaming tab
             _renamingTabVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_RenamingTab");
             _renamingTabVisualTreeAsset.CloneTree(_root);
-            
-            // Undo (Edit Filter) Button
+
+            // Rename Button
             _wideButtonVisualTreeAsset.CloneTree(_root);
-            _undoOrEditFilterButton = _root.Q<Button>("BT_WideButton");
-            _undoOrEditFilterButton.name = "BT_UndoOrEditFilter";
-            _undoOrEditFilterButton.text = "EDIT FILTER";
-            _undoOrEditFilterButton.clickable.clicked += InitFilterUi;
+            _renameButton = _root.Q<Button>("BT_WideButton");
+            _renameButton.name = "BT_Rename";
+            _renameButton.text = "RENAME";
+            // _renameButton.clickable.clicked += Rename;
 
             AddVersionInfoVisualElement();
         }
