@@ -69,17 +69,7 @@ namespace UnityAssetProcessingTools.Editor
         private void OnEnable()                                                                                                              
         {                                                                                                                                    
             // Reference to the root of the window.                                                                                          
-            _root = rootVisualElement;                                                                                                       
-                                                                                                                                             
-            // Associates a stylesheet to our root. Thanks to inheritance, all root’s                                                        
-            // children will have access to it.                                                                                              
-            _root.styleSheets.Add(Resources.Load<StyleSheet>(
-                "UnityAssetProcessingToolsEditorWindow"));                                    
-                                                                                                                                             
-            // // Loads and clones our VisualTree (eg. our UXML structure) inside the root.                                                     
-            // _mainVisualTree = Resources.Load<VisualTreeAsset>(
-            //     "UnityAssetProcessingToolsEditorWindow");                                 
-            // _mainVisualTree.CloneTree(_root);
+            _root = rootVisualElement;
 
             // Initiate the GUI
             InitFilterUi();
