@@ -1,8 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="VE_ContentsMain" style="flex-grow: 1; background-color: rgb(56, 56, 56); border-left-width: 0; border-right-width: 0; border-top-width: 1.5px; border-bottom-width: 1.5px; border-top-color: rgb(36, 36, 36); border-bottom-color: rgb(36, 36, 36);">
-        <ui:VisualElement name="VE_ContentsBackground" style="margin-left: 6px; margin-right: 6px; margin-top: 6px; margin-bottom: 6px; flex-grow: 1; background-color: rgb(41, 41, 41); padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px;">
+    <ui:VisualElement name="VE_RenamingTab" style="flex-grow: 1; border-left-width: 0; border-right-width: 0; border-top-width: 1.5px; border-bottom-width: 1.5px; border-top-color: rgb(36, 36, 36); border-bottom-color: rgb(36, 36, 36);">
+        <ui:VisualElement name="VE_ContentsBackground" style="margin-left: 6px; margin-right: 6px; margin-top: 6px; margin-bottom: 6px; flex-grow: 1; padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; border-left-color: rgba(0, 0, 0, 255); border-right-color: rgba(0, 0, 0, 255); border-top-color: rgba(0, 0, 0, 255); border-bottom-color: rgba(0, 0, 0, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;">
             <ui:VisualElement style="flex-grow: 1;">
-                <ui:Label text="Rename all filtered textures ..." />
+                <ui:Label text="Rename all filtered assets ..." />
                 <ui:Label text="... by doing the following ..." style="margin-bottom: 3px;" />
                 <ui:VisualElement name="VE_Replace" style="flex-direction: row;">
                     <ui:VisualElement style="flex-basis: 50%; flex-direction: row;">

@@ -6,6 +6,12 @@ namespace UnityAssetProcessingTools
 {
     public class ActiveFilter
     {
+        public enum FilterAssetType
+        {
+            AllAssetsFilter,
+            TexturesFilter
+        }
+        
         public string BrowsePath { get; set; }
         public bool IsRecursive { get; set; }
         public string NameStartsWith  { get; set; }
@@ -13,11 +19,5 @@ namespace UnityAssetProcessingTools
         public string NameEndsWith  { get; set; }
         public int DiskSize  { get; set; }
 
-        public enum FilterType
-        {
-            NoActiveFilter,
-            UntitledFilter,
-            LoadedFilter
-        }
     }
 }

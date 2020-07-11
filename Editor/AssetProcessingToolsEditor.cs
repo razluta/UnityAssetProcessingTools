@@ -14,9 +14,11 @@ namespace UnityAssetProcessingTools.Editor
         // private string _version = "v.0.0.1.20200710";
 
         private bool _isFilterTab = true;
+        private bool _isAllAssetsSubtab = true;
         private bool _isTexturesSubtab = false;
         private bool _isToolsTab = false;
-        private bool _isRenamingSubtab = false;
+        private bool _isRenamingSubtab = true;
+        private bool _isMovingSubtab = false;
         
         private VisualElement _root;
         private VisualTreeAsset _mainVisualTree;
@@ -26,14 +28,15 @@ namespace UnityAssetProcessingTools.Editor
         private Button _saveFilterButton;
         private Button _clearFilterButton;
         private Button _confirmFilterButton;
-            
-        private VisualTreeAsset _activeFilterVisualTreeAsset;
+        
         private VisualElement _toolsTabsVisualElement;
         private VisualTreeAsset _tabButtonVisualTreeAsset;
         private VisualTreeAsset _filterTabVisualTreeAsset;
         private VisualTreeAsset _renamingTabVisualTreeAsset;
+        private VisualTreeAsset _movingTabVisualTreeAsset;
         private Button _filterTabButton;
         private Button _renamingTabButton;
+        private Button _movingTabButton;
         private VisualElement _assetTypesVisualElement;
         private Button _allAssetTypeTabButton;
         private Button _textureTypeTabButton;
@@ -100,8 +103,6 @@ namespace UnityAssetProcessingTools.Editor
             if (_isFilterTab)
             {
                 InitFilterUi();
-                // Initiate default state
-                ShowFilterTab();
             }
             else if (_isToolsTab)
             {
@@ -155,7 +156,7 @@ namespace UnityAssetProcessingTools.Editor
             _allAssetTypeTabButton = _root.Q<Button>("BT_Tab");
             _allAssetTypeTabButton.name = "BT_AllAssetTypes";
             _allAssetTypeTabButton.text = "All Asset Types";
-            _allAssetTypeTabButton.clickable.clicked += HideAllFilters;
+            _allAssetTypeTabButton.clickable.clicked += ShowAllAssetsFilters;
             
             _tabButtonVisualTreeAsset.CloneTree(_assetTypesVisualElement);
             _textureTypeTabButton = _root.Q<Button>("BT_Tab");
@@ -164,11 +165,14 @@ namespace UnityAssetProcessingTools.Editor
             _textureTypeTabButton.clickable.clicked += ShowTextureFilters;
             
             // Filter All Assets Tab Contents
-            _filterAllAssetsVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterAllAssetsTab");
-            _filterAllAssetsVisualTreeAsset.CloneTree(_root);
-            _filterAllAssetsTabContentsVisualElement = _root.Q<VisualElement>("VE_FilterAllAssetsTabContents");
-            _filterAllAssetsTabContentsVisualElement.style.flexShrink = 0;
-            _filterAllAssetsTabContentsVisualElement.style.flexGrow = 1;
+            if (_isAllAssetsSubtab)
+            {
+                _filterAllAssetsVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterAllAssetsTab");
+                _filterAllAssetsVisualTreeAsset.CloneTree(_root);
+                _filterAllAssetsTabContentsVisualElement = _root.Q<VisualElement>("VE_FilterAllAssetsTabContents");
+                _filterAllAssetsTabContentsVisualElement.style.flexShrink = 0;
+                _filterAllAssetsTabContentsVisualElement.style.flexGrow = 1;
+            }
             
             // Filter Textures Tab Contents
             if (_isTexturesSubtab)
@@ -201,12 +205,20 @@ namespace UnityAssetProcessingTools.Editor
 
         private void HideAllFilters()
         {
+            _isAllAssetsSubtab = true;
             _isTexturesSubtab = false;
+        }
+
+        private void ShowAllAssetsFilters()
+        {
+            HideAllFilters();
+            _isAllAssetsSubtab = true;
             InitUi();
         }
         
         private void ShowTextureFilters()
         {
+            HideAllFilters();
             _isTexturesSubtab = true;
             InitUi();
         }
@@ -224,8 +236,6 @@ namespace UnityAssetProcessingTools.Editor
         private void InitToolsUi()
         {
             // Active filter
-            _activeFilterVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterActive");
-            _activeFilterVisualTreeAsset.CloneTree(_root);
             _filter = AssetProcessingTools.GetFilter();
             
             // Undo (Edit Filter) Button
@@ -252,17 +262,42 @@ namespace UnityAssetProcessingTools.Editor
             _renamingTabButton.text = "Renaming";
             _renamingTabButton.clickable.clicked += ShowRenamingTab;
             
-            // Renaming tab
-            _renamingTabVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_RenamingTab");
-            _renamingTabVisualTreeAsset.CloneTree(_root);
-
-            // Rename Button
-            _wideButtonVisualTreeAsset.CloneTree(_root);
-            _renameButton = _root.Q<Button>("BT_WideButton");
-            _renameButton.name = "BT_Rename";
-            _renameButton.text = "RENAME";
-            // _renameButton.clickable.clicked += Rename;
-
+            _tabButtonVisualTreeAsset.CloneTree(_toolsTabsVisualElement);
+            _movingTabButton = _root.Q<Button>("BT_Tab");
+            _movingTabButton.name = "BT_MovingTab";
+            _movingTabButton.text = "Moving";
+            _movingTabButton.clickable.clicked += ShowMovingTab;
+            
+            // Active Renaming Tab?
+            if (_isRenamingSubtab)
+            {
+                // Renaming tab
+                _renamingTabVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_RenamingTab");
+                _renamingTabVisualTreeAsset.CloneTree(_root);
+                
+                // Rename Button
+                _wideButtonVisualTreeAsset.CloneTree(_root);
+                _renameButton = _root.Q<Button>("BT_WideButton");
+                _renameButton.name = "BT_Renaming";
+                _renameButton.text = "RENAME";
+                // _renameButton.clickable.clicked += Rename;
+            }
+            
+            // Active Moving Tab?
+            if (_isMovingSubtab)
+            {
+                // Moving tab
+                _movingTabVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_MovingTab");
+                _movingTabVisualTreeAsset.CloneTree(_root);
+                
+                // Rename Button
+                _wideButtonVisualTreeAsset.CloneTree(_root);
+                _movingTabButton = _root.Q<Button>("BT_WideButton");
+                _movingTabButton.name = "BT_Moving";
+                _movingTabButton.text = "MOVE";
+                // _movingTabButton.clickable.clicked += Move;
+            }
+            
             AddVersionInfoVisualElement();
         }
 
@@ -271,20 +306,24 @@ namespace UnityAssetProcessingTools.Editor
             // _pathLabel.text = filter.BrowsePath;
         }
         
-        private void HideAllTabs()
+        private void HideAllTools()
         {
-            // _filterTabVisualElement.Clear();
+            _isRenamingSubtab = false;
+            _isMovingSubtab = false;
         }
-        
-        private void ShowFilterTab()
-        {
-            HideAllTabs();
-            
-        }
-        
+
         private void ShowRenamingTab()
         {
-            HideAllTabs();
+            HideAllTools();
+            _isRenamingSubtab = true;
+            InitUi();
+        }
+        
+        private void ShowMovingTab()
+        {
+            HideAllTools();
+            _isMovingSubtab = true;
+            InitUi();
         }
 
         private void Browse()
