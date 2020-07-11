@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,7 +8,15 @@ namespace UnityAssetProcessingTools.Editor
 {
     public class AssetProcessingToolsEditor : EditorWindow
     {
+        private const int WindowWidth = 350;
+        private const int WindowHeight = 650;
+        
         // private string _version = "v.0.0.1.20200710";
+
+        private bool _isFilterTab = true;
+        private bool _isTexturesSubtab = false;
+        private bool _isToolsTab = false;
+        private bool _isRenamingSubtab = false;
         
         private VisualElement _root;
         private VisualTreeAsset _mainVisualTree;
@@ -29,8 +36,11 @@ namespace UnityAssetProcessingTools.Editor
         private Button _renamingTabButton;
         private VisualElement _assetTypesVisualElement;
         private Button _allAssetTypeTabButton;
+        private Button _textureTypeTabButton;
         private VisualTreeAsset _filterAllAssetsVisualTreeAsset;
+        private VisualTreeAsset _filterTexturesTreeAsset;
         private VisualElement _filterAllAssetsTabContentsVisualElement;
+        private VisualElement _filterTexturesTabContentsVisualElement;
         private Button _browse;
         private Label _pathLabel;
         private VisualTreeAsset _versionInfoVisualTreeAsset;
@@ -63,7 +73,7 @@ namespace UnityAssetProcessingTools.Editor
             window.titleContent = new GUIContent("Asset Processing Tools");                                                                
                                                                                                                                              
             // Sets a minimum size to the window.                                                                                            
-            window.minSize = new Vector2(350, 600);                                                                                          
+            window.minSize = new Vector2(WindowWidth, WindowHeight);                                                                                          
         }                                                                                                                                    
                                                                                                                                              
         private void OnEnable()                                                                                                              
@@ -72,17 +82,37 @@ namespace UnityAssetProcessingTools.Editor
             _root = rootVisualElement;
 
             // Initiate the GUI
-            InitFilterUi();
-
-            // Initiate default state
-            ShowFilterTab();
+            InitUi();
         }
 
-        private void InitFilterUi()
+        private void ResetFilter()
+        {
+            _isFilterTab = true;
+            _isToolsTab = false;
+            InitUi();
+        }
+
+        private void InitUi()
         {
             // Clear Ui
             _root.Clear();
             
+            if (_isFilterTab)
+            {
+                InitFilterUi();
+                // Initiate default state
+                ShowFilterTab();
+            }
+            else if (_isToolsTab)
+            {
+                InitToolsUi();
+            }
+            
+            _root.MarkDirtyRepaint();
+        }
+
+        private void InitFilterUi()
+        {
             _tabButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_Tab");
 
             // Load Filter Button
@@ -116,7 +146,7 @@ namespace UnityAssetProcessingTools.Editor
             _assetTypesVisualElement.style.flexDirection = FlexDirection.Row;
             _assetTypesVisualElement.style.flexShrink = 0;
             _assetTypesVisualElement.style.flexGrow = 0;
-            // _assetTypesVisualElement.style.marginBottom = 8;
+            _assetTypesVisualElement.style.marginBottom = 8;
             _assetTypesVisualElement.style.marginTop = 8;
             _assetTypesVisualElement.style.alignItems = Align.Center;
             _assetTypesVisualElement.style.justifyContent = Justify.Center;
@@ -125,6 +155,13 @@ namespace UnityAssetProcessingTools.Editor
             _allAssetTypeTabButton = _root.Q<Button>("BT_Tab");
             _allAssetTypeTabButton.name = "BT_AllAssetTypes";
             _allAssetTypeTabButton.text = "All Asset Types";
+            _allAssetTypeTabButton.clickable.clicked += HideAllFilters;
+            
+            _tabButtonVisualTreeAsset.CloneTree(_assetTypesVisualElement);
+            _textureTypeTabButton = _root.Q<Button>("BT_Tab");
+            _textureTypeTabButton.name = "BT_TextureType";
+            _textureTypeTabButton.text = "Textures";
+            _textureTypeTabButton.clickable.clicked += ShowTextureFilters;
             
             // Filter All Assets Tab Contents
             _filterAllAssetsVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterAllAssetsTab");
@@ -133,6 +170,16 @@ namespace UnityAssetProcessingTools.Editor
             _filterAllAssetsTabContentsVisualElement.style.flexShrink = 0;
             _filterAllAssetsTabContentsVisualElement.style.flexGrow = 1;
             
+            // Filter Textures Tab Contents
+            if (_isTexturesSubtab)
+            {
+                _filterTexturesTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterTexturesTab");
+                _filterTexturesTreeAsset.CloneTree(_root);
+                _filterTexturesTabContentsVisualElement = _root.Q<VisualElement>("VE_FilterTexturesTabContents");
+                _filterTexturesTabContentsVisualElement.style.flexShrink = 0;
+                _filterTexturesTabContentsVisualElement.style.flexGrow = 1;
+            }
+
             // Browse Button
             _browse = _root.Q<Button>("BT_Browse");
             _browse.clickable.clicked += Browse;
@@ -150,6 +197,18 @@ namespace UnityAssetProcessingTools.Editor
             
             // Bind Ui to Data
             BindFilterToUi(_filter);
+        }
+
+        private void HideAllFilters()
+        {
+            _isTexturesSubtab = false;
+            InitUi();
+        }
+        
+        private void ShowTextureFilters()
+        {
+            _isTexturesSubtab = true;
+            InitUi();
         }
 
         private void AddVersionInfoVisualElement()
@@ -173,8 +232,8 @@ namespace UnityAssetProcessingTools.Editor
             _wideButtonVisualTreeAsset.CloneTree(_root);
             _undoOrEditFilterButton = _root.Q<Button>("BT_WideButton");
             _undoOrEditFilterButton.name = "BT_UndoOrEditFilter";
-            _undoOrEditFilterButton.text = "EDIT FILTER";
-            _undoOrEditFilterButton.clickable.clicked += InitFilterUi;
+            _undoOrEditFilterButton.text = "RESET FILTER";
+            _undoOrEditFilterButton.clickable.clicked += ResetFilter;
             
             // Tools tabs
             _toolsTabsVisualElement = new VisualElement();
@@ -182,7 +241,7 @@ namespace UnityAssetProcessingTools.Editor
             _toolsTabsVisualElement.style.flexDirection = FlexDirection.Row;
             _toolsTabsVisualElement.style.flexShrink = 0;
             _toolsTabsVisualElement.style.flexGrow = 0;
-            // _toolsTabsVisualElement.style.marginBottom = 8;
+            _toolsTabsVisualElement.style.marginBottom = 8;
             _toolsTabsVisualElement.style.marginTop = 8;
             _toolsTabsVisualElement.style.alignItems = Align.Center;
             _toolsTabsVisualElement.style.justifyContent = Justify.Center;
@@ -220,6 +279,7 @@ namespace UnityAssetProcessingTools.Editor
         private void ShowFilterTab()
         {
             HideAllTabs();
+            
         }
         
         private void ShowRenamingTab()
@@ -297,6 +357,11 @@ namespace UnityAssetProcessingTools.Editor
         private void LoadFilter()
         {
             _filterPath = EditorUtility.OpenFilePanel("", "", "json");
+            if (String.IsNullOrWhiteSpace(_filterPath))
+            {
+                return;
+            }
+            
             _filter = AssetProcessingTools.GetFilter(_filterPath);
             BindFilterToUi(_filter);
         }
@@ -309,8 +374,9 @@ namespace UnityAssetProcessingTools.Editor
 
         private void ConfirmFilter()
         {
-            _root.Clear();
-            InitToolsUi();
+            _isFilterTab = false;
+            _isToolsTab = true;
+            InitUi();
         }
         
     }                                                                                                                                        
