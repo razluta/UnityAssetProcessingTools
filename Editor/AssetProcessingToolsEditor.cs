@@ -13,7 +13,7 @@ namespace UnityAssetProcessingTools.Editor
         // private string _version = "v.0.0.1.20200710";
         
         private const int WindowWidth = 350;
-        private const int WindowHeight = 700;
+        private const int WindowHeight = 800;
 
         private readonly StyleColor _colorTabActive = new StyleColor(new Color(0.45f, 0.45f, 0.45f));
         private readonly StyleColor _colorTabInactive = new StyleColor(new Color(0.34f, 0.34f, 0.34f));
@@ -21,6 +21,7 @@ namespace UnityAssetProcessingTools.Editor
 
         private bool _isFilterTab = true;
         private bool _isAllAssetsSubtab = true;
+        private bool _isAllAssetsExceptionsSubtab = true;
         private bool _isTexturesSubtab = false;
         private bool _isToolsTab = false;
         private bool _isRenamingSubtab = true;
@@ -48,8 +49,10 @@ namespace UnityAssetProcessingTools.Editor
         private Button _allAssetTypeTabButton;
         private Button _textureTypeTabButton;
         private VisualTreeAsset _filterAllAssetsVisualTreeAsset;
+        private VisualTreeAsset _filterAllAssetsIgnorelistVisualTreeAsset;
         private VisualTreeAsset _filterTexturesTreeAsset;
         private VisualElement _filterAllAssetsTabContentsVisualElement;
+        private VisualElement _filterAllAssetsIgnorelistTabContentsVisualElement;
         private VisualElement _filterTexturesTabContentsVisualElement;
         private Button _browse;
         private Label _pathLabel;
@@ -185,6 +188,16 @@ namespace UnityAssetProcessingTools.Editor
                 _filterAllAssetsTabContentsVisualElement = _root.Q<VisualElement>("VE_FilterAllAssetsTabContents");
                 _filterAllAssetsTabContentsVisualElement.style.flexShrink = 0;
                 _filterAllAssetsTabContentsVisualElement.style.flexGrow = 1;
+
+                if (_isAllAssetsExceptionsSubtab)
+                {
+                    _filterAllAssetsIgnorelistVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterAllAssetsIgnorelistTab");
+                    _filterAllAssetsIgnorelistVisualTreeAsset.CloneTree(_root);
+                    _filterAllAssetsIgnorelistTabContentsVisualElement =
+                        _root.Q<VisualElement>("VE_FilterAllAssetsIgnorelistTabContents");
+                    _filterAllAssetsIgnorelistTabContentsVisualElement.style.flexShrink = 0;
+                    _filterAllAssetsIgnorelistTabContentsVisualElement.style.flexGrow = 1;
+                }
                 
                 // Style update
                 SetAllFilterTabButtonStylesAsInactive();
@@ -294,6 +307,7 @@ namespace UnityAssetProcessingTools.Editor
         private void HideAllFilters()
         {
             _isAllAssetsSubtab = true;
+            _isAllAssetsExceptionsSubtab = false;
             _isTexturesSubtab = false;
         }
 
@@ -301,6 +315,7 @@ namespace UnityAssetProcessingTools.Editor
         {
             HideAllFilters();
             _isAllAssetsSubtab = true;
+            _isAllAssetsExceptionsSubtab = true;
             InitUi();
         }
         

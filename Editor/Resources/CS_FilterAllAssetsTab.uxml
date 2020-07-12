@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <ui:VisualElement name="VE_FilterAllAssetsTabContents" style="flex-grow: 1; border-left-width: 0; border-right-width: 0; border-top-width: 1.5px; border-bottom-width: 1.5px; border-top-color: rgb(36, 36, 36); border-bottom-color: rgb(36, 36, 36);">
-        <ui:VisualElement name="VE_ContentsBackground" style="margin-left: 6px; margin-right: 6px; margin-top: 6px; margin-bottom: 6px; flex-grow: 1; padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgba(0, 0, 0, 255); border-right-color: rgba(0, 0, 0, 255); border-top-color: rgba(0, 0, 0, 255); border-bottom-color: rgba(0, 0, 0, 255);">
+        <ui:VisualElement name="VE_ContentsBackground" style="margin-left: 6px; margin-right: 6px; margin-top: 6px; margin-bottom: 6px; flex-grow: 1; padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);">
             <ui:VisualElement style="flex-grow: 1;">
                 <ui:Label text="Filter all assets ..." />
                 <ui:Label text="... that reside in the directory ..." />
