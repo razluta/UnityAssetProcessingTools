@@ -528,12 +528,21 @@ namespace UnityAssetProcessingTools.Editor
         private void PopulateFilterResultsScrollView()
         {
             _filterResultsScrollView.Clear();
-            for (var i = 0; i < 40; i++)
+
+            var assetCount = 1000;
+            for (var i = 0; i < assetCount; i++)
             {
-                var filterResultButton = new Button();
-
                 var assetName = "FileName.extension - v" + i;
+                
+                // Show Progress Bar
+                var fractionalValue = (float) (i + 1) / assetCount;
+                var percentage = fractionalValue * 100;
+                EditorUtility.DisplayProgressBar(
+                    "Filtering Assets",
+                    String.Format("{0}% - Processing - {1}", percentage, assetName), 
+                    fractionalValue);
 
+                var filterResultButton = new Button();
                 filterResultButton.text = assetName;
                 filterResultButton.clickable.clicked += () => SelectCurrentFoundAsset(filterResultButton.text);
                 
@@ -548,6 +557,7 @@ namespace UnityAssetProcessingTools.Editor
                 
                 _filterResultsScrollView.Add(filterResultButton);
             }
+            EditorUtility.ClearProgressBar();
         }
 
         private void SelectCurrentFoundAsset(string assetPath)
