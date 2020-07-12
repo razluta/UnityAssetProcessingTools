@@ -19,3 +19,6 @@ A set of Unity Asset Processing Tools like: renaming, resizing, type conversion,
 }
 ```
 *  *  *  *  *
+
+[![!Donate](https://github.com/razluta/UnityAssetProcessingTools/blob/master/Resources/donate_button.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=EXZLYB9MFXANJ&currency_code=USD&source=url)
+If you enjoyed this project — or just feeling generous, consider donating. Cheers! 🍻
