@@ -12,7 +12,10 @@ namespace UnityAssetProcessingTools
         private const string AllAssetsFolderRelativePath = "Assets";
         private const int BytesInKiloBytes = 1024;
 
-        public static bool IsAssetValidForFilter(string assetRelativePath, ActiveFilter filter)
+        public static bool IsAssetValidForFilter(
+            string assetRelativePath, 
+            ActiveFilter filter, 
+            List<string> excludedExtensions = null)
         {
             Debug.Log("Asset relative path: " + assetRelativePath);
             
@@ -35,12 +38,15 @@ namespace UnityAssetProcessingTools
                 Debug.Log("- asset absolute path: " + assetAbsolutePath);
             }
                
-            var assetName = Path.GetFileName(assetRelativePath);
+            var assetNameWithExtension = Path.GetFileName(assetRelativePath);
+            var assetNameWithoutExtension = Path.GetFileNameWithoutExtension(assetRelativePath);
+            var assetNameExtension = Path.GetExtension(assetRelativePath);
+            
             var assetDiskSize = new System.IO.FileInfo(assetAbsolutePath).Length / BytesInKiloBytes;
 
-            if (String.IsNullOrWhiteSpace(assetName))
+            if (String.IsNullOrWhiteSpace(assetNameWithExtension))
             {
-                Debug.Log("- error: file name is empty " + assetName);
+                Debug.Log("- error: file name is empty " + assetNameWithExtension);
                 return false;
             }
                
@@ -58,21 +64,21 @@ namespace UnityAssetProcessingTools
             // ???
                
             // NameStartsWith
-            if (!assetName.StartsWith(filter.NameStartsWith))
+            if (!assetNameWithoutExtension.StartsWith(filter.NameStartsWith))
             {
                 Debug.Log("- error: file name does not start with: " + filter.NameStartsWith);
                 return false;
             }
                
             // NameContains
-            if (!assetName.Contains(filter.NameContains))
+            if (!assetNameWithoutExtension.Contains(filter.NameContains))
             {
                 Debug.Log("- error: file name does not contain: " + filter.NameContains);
                 return false;
             }
                
             // NameEndsWith
-            if (!assetName.EndsWith(filter.NameEndsWith))
+            if (!assetNameWithoutExtension.EndsWith(filter.NameEndsWith))
             {
                 Debug.Log("- error: file name does not end with: " + filter.NameEndsWith);
                 return false;
@@ -83,6 +89,21 @@ namespace UnityAssetProcessingTools
             {
                 Debug.Log("- error: file disk size is not larger than: " + filter.DiskSize);
                 return false;
+            }
+            
+            // Check extensions
+            if (excludedExtensions != null)
+            {
+                if (excludedExtensions.Count != 0)
+                {
+                    foreach (var extension in excludedExtensions)
+                    {
+                        if (assetNameWithExtension.EndsWith(extension))
+                        {
+                            return false;
+                        }
+                    }
+                }
             }
 
             return true;
