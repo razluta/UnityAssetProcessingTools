@@ -1,6 +1,6 @@
 !!! THIS IS A WORK IN PROGRESS AND IT IS NOT CURRENTLY FUNCTIONAL !!!
 
-# Unity Asset Processing Tools [![License](https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](http://mit-license.org)
+# Unity Asset Processing Tools [![License](https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](http://mit-license.org) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](razvan.luta@gmail.com)
 A set of Unity Asset Processing Tools like: renaming, resizing, type conversion, generation, cropping and analysis.
 
 
