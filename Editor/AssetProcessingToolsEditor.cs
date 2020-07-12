@@ -53,6 +53,7 @@ namespace UnityAssetProcessingTools.Editor
         private VisualElement _versionInfoVisualElement;
         private Button _undoOrEditFilterButton;
         private Button _renameButton;
+        private Button _moveButton;
 
         private static ActiveFilter _filter;
         private static string _filterPath = string.Empty;
@@ -304,13 +305,13 @@ namespace UnityAssetProcessingTools.Editor
                 // Rename Button
                 _wideButtonVisualTreeAsset.CloneTree(_root);
                 _renameButton = _root.Q<Button>("BT_WideButton");
-                _renameButton.name = "BT_Renaming";
+                _renameButton.name = "BT_Rename";
                 _renameButton.text = "RENAME";
                 _renameButton.clickable.clicked += Rename;
                 
                 // Change styles
                 SetAllToolTabButtonStylesAsInactive();
-                SetTabButtonStyle(_renameButton, true);
+                SetTabButtonStyle(_renamingTabButton, true);
             }
             
             // Active Moving Tab?
@@ -322,10 +323,10 @@ namespace UnityAssetProcessingTools.Editor
                 
                 // Rename Button
                 _wideButtonVisualTreeAsset.CloneTree(_root);
-                _movingTabButton = _root.Q<Button>("BT_WideButton");
-                _movingTabButton.name = "BT_Moving";
-                _movingTabButton.text = "MOVE";
-                _movingTabButton.clickable.clicked += Move;
+                _moveButton = _root.Q<Button>("BT_WideButton");
+                _moveButton.name = "BT_Move";
+                _moveButton.text = "MOVE";
+                _moveButton.clickable.clicked += Move;
                 
                 // Change styles
                 SetAllToolTabButtonStylesAsInactive();
@@ -337,7 +338,7 @@ namespace UnityAssetProcessingTools.Editor
         
         private void SetAllToolTabButtonStylesAsInactive()
         {
-            SetTabButtonStyle(_renameButton, false);
+            SetTabButtonStyle(_renamingTabButton, false);
             SetTabButtonStyle(_movingTabButton, false);
         }
 
