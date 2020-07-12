@@ -49,7 +49,8 @@ namespace UnityAssetProcessingTools
                 NameStartsWith = "",
                 NameContains = "",
                 NameEndsWith = "",
-                DiskSize = 0
+                DiskSize = 0,
+                ExcludedExtensions = null
             };
 
             return filter;

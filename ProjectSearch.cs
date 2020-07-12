@@ -14,8 +14,7 @@ namespace UnityAssetProcessingTools
 
         public static bool IsAssetValidForFilter(
             string assetRelativePath, 
-            ActiveFilter filter, 
-            List<string> excludedExtensions = null)
+            ActiveFilter filter)
         {
             Debug.Log("Asset relative path: " + assetRelativePath);
             
@@ -92,11 +91,11 @@ namespace UnityAssetProcessingTools
             }
             
             // Check extensions
-            if (excludedExtensions != null)
+            if (filter.ExcludedExtensions != null)
             {
-                if (excludedExtensions.Count != 0)
+                if (filter.ExcludedExtensions.Count != 0)
                 {
-                    foreach (var extension in excludedExtensions)
+                    foreach (var extension in filter.ExcludedExtensions)
                     {
                         if (assetNameWithExtension.EndsWith(extension))
                         {
