@@ -18,6 +18,5 @@ namespace UnityAssetProcessingTools
         public string NameContains  { get; set; }
         public string NameEndsWith  { get; set; }
         public int DiskSize  { get; set; }
-
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityAssetProcessingTools.SystemUtilities;
-using UnityEngine;
 
 namespace UnityAssetProcessingTools
 {
@@ -46,7 +44,7 @@ namespace UnityAssetProcessingTools
         {
             var filter = new ActiveFilter()
             {
-                BrowsePath = "C:/",
+                BrowsePath = ProjectSearch.GetApplicationDataPath(),
                 IsRecursive = true,
                 NameStartsWith = "",
                 NameContains = "",

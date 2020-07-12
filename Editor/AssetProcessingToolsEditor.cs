@@ -96,10 +96,13 @@ namespace UnityAssetProcessingTools.Editor
             // Reference to the root of the window.                                                                                          
             _root = rootVisualElement;
             
+            // Establish references
+
             // Load necessary references for UXML data
             
             // Load necessary references for USS data
 
+            
             // Initiate the GUI
             InitUi();
         }
@@ -445,12 +448,27 @@ namespace UnityAssetProcessingTools.Editor
 
         private void Browse()
         {
-            var path = EditorUtility.OpenFolderPanel("", "", "");
+            var applicationDataPath = ProjectSearch.GetApplicationDataPath();
+            
+            var path = EditorUtility.OpenFolderPanel("", applicationDataPath, "");
             if (path.Length == 0)
             {
                 return;
             }
-            _browsePath = path;
+
+            if (!path.StartsWith(applicationDataPath))
+            {
+                EditorUtility.DisplayDialog(
+                    "Error - Invalid path", 
+                    "Selected path must be within your project!", 
+                    "Ok");
+                _browsePath = applicationDataPath;
+            }
+            else
+            {
+                _browsePath = path;
+            }
+            
             _pathLabel.text = _browsePath;
         }
 
@@ -545,17 +563,17 @@ namespace UnityAssetProcessingTools.Editor
         private void PopulateFilterResultsScrollView()
         {
             _filterResultsScrollView.Clear();
-            
-            var allAssetPaths = ProjectSearch.GetAllFileAssetRelativePaths();
-            var assetCount = ProjectSearch.GetAllFileAssetRelativePaths().Count;
-            
-            for (var i = 0; i < assetCount; i++)
+
+            var allAssetsRelativePaths = ProjectSearch.GetAllFileAssetRelativePaths();
+            var totalAssetCount = allAssetsRelativePaths.Count;
+
+            for (var i = 0; i < totalAssetCount; i++)
             {
-                var assetRelativePath = allAssetPaths[i];
+                var assetRelativePath = allAssetsRelativePaths[i];
                 var assetName = Path.GetFileName(assetRelativePath);
 
                 // Show Progress Bar
-                var fractionalValue = (float) (i + 1) / assetCount;
+                var fractionalValue = (float) (i + 1) / totalAssetCount;
                 var percentage = fractionalValue * 100;
                 EditorUtility.DisplayProgressBar(
                     "Filtering Assets",
@@ -576,8 +594,20 @@ namespace UnityAssetProcessingTools.Editor
                 filterResultButton.style.paddingTop = 3;
                 filterResultButton.style.paddingBottom = 3;
                 
-                _filterResultsScrollView.Add(filterResultButton);
+                if (ProjectSearch.IsAssetValidForFilter(assetRelativePath, _filter))
+                {
+                    _filterResultsScrollView.Add(filterResultButton);
+                }
             }
+
+            // If the list is empty, show 0 results message
+            if (_filterResultsScrollView.childCount == 0)
+            {
+                var foundAsset = new Label();
+                foundAsset.text = "0 results found";
+                _filterResultsScrollView.Add(foundAsset);
+            }
+            
             EditorUtility.ClearProgressBar();
         }
 
@@ -593,7 +623,7 @@ namespace UnityAssetProcessingTools.Editor
             _isToolsTab = true;
             InitUi();
         }
-
+        
         private void Rename()
         {
             
