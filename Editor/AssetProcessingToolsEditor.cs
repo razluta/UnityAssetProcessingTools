@@ -51,6 +51,7 @@ namespace UnityAssetProcessingTools.Editor
         private VisualElement _filterTexturesTabContentsVisualElement;
         private Button _browse;
         private Label _pathLabel;
+        private ScrollView _filterResultsScrollView;
         private VisualTreeAsset _versionInfoVisualTreeAsset;
         private VisualElement _versionInfoVisualElement;
         private Button _undoOrEditFilterButton;
@@ -213,7 +214,7 @@ namespace UnityAssetProcessingTools.Editor
             _applyFilterButton = _root.Q<Button>("BT_WideButton");
             _applyFilterButton.name = "BT_ApplyFilter";
             _applyFilterButton.text = "APPLY FILTER";
-            // _applyFilterButton.clickable.clicked += ApplyFilter;
+            _applyFilterButton.clickable.clicked += ApplyFilter;
             
             // Filter results
             var filterHolder = new VisualElement();
@@ -252,15 +253,11 @@ namespace UnityAssetProcessingTools.Editor
             filterResultsLabel.style.unityTextAlign = new StyleEnum<TextAnchor>(TextAnchor.MiddleCenter);
             filterResultsLabel.style.marginTop = 6;
 
-            var filterResults = new ScrollView();
+            _filterResultsScrollView = new ScrollView();
 
-            for (var i = 0; i < 40; i++)
-            {
-                var foundAsset = new Label();
-                foundAsset.text = "Found Asset " + i;
-                filterResults.Add(foundAsset);
-            }
-            filterResultsHolder.Add(filterResults);
+            InitializeFilterResults();
+
+            filterResultsHolder.Add(_filterResultsScrollView);
             
             filterHolder.Add(filterResultsLabel);
             filterHolder.Add(filterResultsHolder);
@@ -511,7 +508,32 @@ namespace UnityAssetProcessingTools.Editor
         private void ClearFilter()
         {
             _filter = AssetProcessingTools.GetDefaultFilter();
+            InitializeFilterResults();
             BindFilterToUi(_filter);
+        }
+
+        private void ApplyFilter()
+        {
+            PopulateFilterResultsScrollView();
+        }
+
+        private void InitializeFilterResults()
+        {
+            _filterResultsScrollView.Clear();
+            var foundAsset = new Label();
+            foundAsset.text = "0 results found";
+            _filterResultsScrollView.Add(foundAsset);
+        }
+
+        private void PopulateFilterResultsScrollView()
+        {
+            _filterResultsScrollView.Clear();
+            for (var i = 0; i < 40; i++)
+            {
+                var foundAsset = new Label();
+                foundAsset.text = "Found Asset " + i;
+                _filterResultsScrollView.Add(foundAsset);
+            }
         }
 
         private void ConfirmFilter()
