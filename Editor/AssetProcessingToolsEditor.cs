@@ -11,10 +11,11 @@ namespace UnityAssetProcessingTools.Editor
         // private string _version = "v.0.0.1.20200710";
         
         private const int WindowWidth = 350;
-        private const int WindowHeight = 650;
+        private const int WindowHeight = 700;
 
         private readonly StyleColor _colorTabActive = new StyleColor(new Color(0.45f, 0.45f, 0.45f));
         private readonly StyleColor _colorTabInactive = new StyleColor(new Color(0.34f, 0.34f, 0.34f));
+        private readonly StyleColor _colorGreyLine = new StyleColor(new Color(0.14f, 0.14f, 0.14f));
 
         private bool _isFilterTab = true;
         private bool _isAllAssetsSubtab = true;
@@ -30,6 +31,7 @@ namespace UnityAssetProcessingTools.Editor
         private Button _loadFilterButton;
         private Button _saveFilterButton;
         private Button _clearFilterButton;
+        private Button _applyFilterButton;
         private Button _confirmFilterButton;
         
         private VisualElement _toolsTabsVisualElement;
@@ -204,6 +206,66 @@ namespace UnityAssetProcessingTools.Editor
             _browse = _root.Q<Button>("BT_Browse");
             _browse.clickable.clicked += Browse;
             _pathLabel = _root.Q<Label>("LB_BrowsePath");
+            
+            // Apply Filter Button
+            _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
+            _wideButtonVisualTreeAsset.CloneTree(_root);
+            _applyFilterButton = _root.Q<Button>("BT_WideButton");
+            _applyFilterButton.name = "BT_ApplyFilter";
+            _applyFilterButton.text = "APPLY FILTER";
+            // _applyFilterButton.clickable.clicked += ApplyFilter;
+            
+            // Filter results
+            var filterHolder = new VisualElement();
+            filterHolder.style.borderTopColor = _colorGreyLine;
+            filterHolder.style.borderTopWidth = 1;
+            filterHolder.style.borderBottomColor = _colorGreyLine;
+            filterHolder.style.borderBottomWidth = 1;
+            
+            var filterResultsHolder = new VisualElement();
+            filterResultsHolder.style.flexShrink = 1;
+            filterResultsHolder.style.flexGrow = 1;
+            filterResultsHolder.style.borderLeftColor = new StyleColor(Color.black);
+            filterResultsHolder.style.borderTopColor = new StyleColor(Color.black);
+            filterResultsHolder.style.borderRightColor = new StyleColor(Color.black);
+            filterResultsHolder.style.borderBottomColor = new StyleColor(Color.black);
+
+            filterResultsHolder.style.borderLeftWidth = 1;
+            filterResultsHolder.style.borderTopWidth = 1;
+            filterResultsHolder.style.borderRightWidth = 1;
+            filterResultsHolder.style.borderBottomWidth = 1;
+
+            filterResultsHolder.style.marginLeft = 6;
+            filterResultsHolder.style.marginTop = 6;
+            filterResultsHolder.style.marginRight = 6;
+            filterResultsHolder.style.marginBottom = 6;
+            
+            filterResultsHolder.style.paddingLeft = 3;
+            filterResultsHolder.style.paddingTop = 3;
+            filterResultsHolder.style.paddingRight = 3;
+            filterResultsHolder.style.paddingBottom = 3;
+
+            var filterResultsLabel = new Label()
+            {
+                text = "Filter Results"
+            };
+            filterResultsLabel.style.unityTextAlign = new StyleEnum<TextAnchor>(TextAnchor.MiddleCenter);
+            filterResultsLabel.style.marginTop = 6;
+
+            var filterResults = new ScrollView();
+
+            for (var i = 0; i < 40; i++)
+            {
+                var foundAsset = new Label();
+                foundAsset.text = "Found Asset " + i;
+                filterResults.Add(foundAsset);
+            }
+            filterResultsHolder.Add(filterResults);
+            
+            filterHolder.Add(filterResultsLabel);
+            filterHolder.Add(filterResultsHolder);
+            
+            _root.Add(filterHolder);
 
             // Confirm Filter Button
             _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
