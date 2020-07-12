@@ -44,7 +44,7 @@ namespace UnityAssetProcessingTools
         {
             var filter = new ActiveFilter()
             {
-                BrowsePath = ProjectSearch.GetApplicationDataPath(),
+                BrowsePath = "",
                 IsRecursive = true,
                 NameStartsWith = "",
                 NameContains = "",

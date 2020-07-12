@@ -14,17 +14,25 @@ namespace UnityAssetProcessingTools
 
         public static bool IsAssetValidForFilter(string assetRelativePath, ActiveFilter filter)
         {
-            Debug.Log("Asset name: " + assetRelativePath);
+            Debug.Log("Asset relative path: " + assetRelativePath);
             
             var assetAbsolutePath = Path.Combine(
                 System.IO.Directory.GetParent(GetApplicationDataPath()).ToString(), 
                 assetRelativePath);
             
+            // Make slashes consistent
+            assetRelativePath = Path.GetFullPath(assetRelativePath);
+            assetAbsolutePath = Path.GetFullPath(assetAbsolutePath);
+
             // Check file exists
             if (!File.Exists(assetAbsolutePath))
             {
-                Debug.Log("- error: file does not exist");
+                Debug.Log("- error: file does not exist at absolute path: " + assetAbsolutePath);
                 return false;
+            }
+            else
+            {
+                Debug.Log("- asset absolute path: " + assetAbsolutePath);
             }
                
             var assetName = Path.GetFileName(assetRelativePath);
