@@ -530,10 +530,29 @@ namespace UnityAssetProcessingTools.Editor
             _filterResultsScrollView.Clear();
             for (var i = 0; i < 40; i++)
             {
-                var foundAsset = new Label();
-                foundAsset.text = "Found Asset " + i;
-                _filterResultsScrollView.Add(foundAsset);
+                var filterResultButton = new Button();
+
+                var assetName = "FileName.extension - v" + i;
+
+                filterResultButton.text = assetName;
+                filterResultButton.clickable.clicked += () => SelectCurrentFoundAsset(filterResultButton.text);
+                
+                // Button Styling
+                filterResultButton.style.backgroundColor = new StyleColor(Color.clear);
+                filterResultButton.style.borderTopLeftRadius = 0;
+                filterResultButton.style.borderTopRightRadius = 0;
+                filterResultButton.style.borderBottomRightRadius = 0;
+                filterResultButton.style.borderBottomLeftRadius = 0;
+                filterResultButton.style.paddingTop = 3;
+                filterResultButton.style.paddingBottom = 3;
+                
+                _filterResultsScrollView.Add(filterResultButton);
             }
+        }
+
+        private void SelectCurrentFoundAsset(string assetPath)
+        {
+            Debug.Log(assetPath);
         }
 
         private void ConfirmFilter()
@@ -542,11 +561,7 @@ namespace UnityAssetProcessingTools.Editor
             _isToolsTab = true;
             InitUi();
         }
-        
-        
-        
-        
-        
+
         private void Rename()
         {
             
