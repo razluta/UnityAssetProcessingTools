@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace UnityAssetProcessingTools.Editor
 {
@@ -528,12 +530,15 @@ namespace UnityAssetProcessingTools.Editor
         private void PopulateFilterResultsScrollView()
         {
             _filterResultsScrollView.Clear();
-
-            var assetCount = 1000;
+            
+            var allAssetPaths = ProjectSearch.GetAllFileAssetRelativePaths();
+            var assetCount = ProjectSearch.GetAllFileAssetRelativePaths().Count;
+            
             for (var i = 0; i < assetCount; i++)
             {
-                var assetName = "FileName.extension - v" + i;
-                
+                var assetRelativePath = allAssetPaths[i];
+                var assetName = Path.GetFileName(assetRelativePath);
+
                 // Show Progress Bar
                 var fractionalValue = (float) (i + 1) / assetCount;
                 var percentage = fractionalValue * 100;
@@ -544,7 +549,8 @@ namespace UnityAssetProcessingTools.Editor
 
                 var filterResultButton = new Button();
                 filterResultButton.text = assetName;
-                filterResultButton.clickable.clicked += () => SelectCurrentFoundAsset(filterResultButton.text);
+                filterResultButton.tooltip = assetRelativePath;
+                filterResultButton.clickable.clicked += () => SelectCurrentFoundAsset(assetRelativePath);
                 
                 // Button Styling
                 filterResultButton.style.backgroundColor = new StyleColor(Color.clear);
@@ -562,7 +568,8 @@ namespace UnityAssetProcessingTools.Editor
 
         private void SelectCurrentFoundAsset(string assetPath)
         {
-            Debug.Log(assetPath);
+            var obj = AssetDatabase.LoadAssetAtPath(assetPath, typeof(Object));
+            Selection.activeObject = obj;
         }
 
         private void ConfirmFilter()
