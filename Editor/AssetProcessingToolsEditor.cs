@@ -8,10 +8,13 @@ namespace UnityAssetProcessingTools.Editor
 {
     public class AssetProcessingToolsEditor : EditorWindow
     {
+        // private string _version = "v.0.0.1.20200710";
+        
         private const int WindowWidth = 350;
         private const int WindowHeight = 650;
-        
-        // private string _version = "v.0.0.1.20200710";
+
+        private readonly StyleColor _colorTabActive = new StyleColor(new Color(0.45f, 0.45f, 0.45f));
+        private readonly StyleColor _colorTabInactive = new StyleColor(new Color(0.34f, 0.34f, 0.34f));
 
         private bool _isFilterTab = true;
         private bool _isAllAssetsSubtab = true;
@@ -83,6 +86,10 @@ namespace UnityAssetProcessingTools.Editor
         {                                                                                                                                    
             // Reference to the root of the window.                                                                                          
             _root = rootVisualElement;
+            
+            // Load necessary references for UXML data
+            
+            // Load necessary references for USS data
 
             // Initiate the GUI
             InitUi();
@@ -157,7 +164,7 @@ namespace UnityAssetProcessingTools.Editor
             _allAssetTypeTabButton.name = "BT_AllAssetTypes";
             _allAssetTypeTabButton.text = "All Asset Types";
             _allAssetTypeTabButton.clickable.clicked += ShowAllAssetsFilters;
-            
+
             _tabButtonVisualTreeAsset.CloneTree(_assetTypesVisualElement);
             _textureTypeTabButton = _root.Q<Button>("BT_Tab");
             _textureTypeTabButton.name = "BT_TextureType";
@@ -172,6 +179,10 @@ namespace UnityAssetProcessingTools.Editor
                 _filterAllAssetsTabContentsVisualElement = _root.Q<VisualElement>("VE_FilterAllAssetsTabContents");
                 _filterAllAssetsTabContentsVisualElement.style.flexShrink = 0;
                 _filterAllAssetsTabContentsVisualElement.style.flexGrow = 1;
+                
+                // Style update
+                SetAllFilterTabButtonStylesAsInactive();
+                SetTabButtonStyle(_allAssetTypeTabButton, true);
             }
             
             // Filter Textures Tab Contents
@@ -182,6 +193,10 @@ namespace UnityAssetProcessingTools.Editor
                 _filterTexturesTabContentsVisualElement = _root.Q<VisualElement>("VE_FilterTexturesTabContents");
                 _filterTexturesTabContentsVisualElement.style.flexShrink = 0;
                 _filterTexturesTabContentsVisualElement.style.flexGrow = 1;
+                
+                // Style update
+                SetAllFilterTabButtonStylesAsInactive();
+                SetTabButtonStyle(_textureTypeTabButton, true);
             }
 
             // Browse Button
@@ -201,6 +216,17 @@ namespace UnityAssetProcessingTools.Editor
             
             // Bind Ui to Data
             BindFilterToUi(_filter);
+        }
+
+        private void SetAllFilterTabButtonStylesAsInactive()
+        {
+            SetTabButtonStyle(_allAssetTypeTabButton, false);
+            SetTabButtonStyle(_textureTypeTabButton, false);
+        }
+
+        private void SetTabButtonStyle(Button button, bool active)
+        {
+            button.style.backgroundColor = active ? _colorTabActive : _colorTabInactive;
         }
 
         private void HideAllFilters()
@@ -280,7 +306,11 @@ namespace UnityAssetProcessingTools.Editor
                 _renameButton = _root.Q<Button>("BT_WideButton");
                 _renameButton.name = "BT_Renaming";
                 _renameButton.text = "RENAME";
-                // _renameButton.clickable.clicked += Rename;
+                _renameButton.clickable.clicked += Rename;
+                
+                // Change styles
+                SetAllToolTabButtonStylesAsInactive();
+                SetTabButtonStyle(_renameButton, true);
             }
             
             // Active Moving Tab?
@@ -295,10 +325,20 @@ namespace UnityAssetProcessingTools.Editor
                 _movingTabButton = _root.Q<Button>("BT_WideButton");
                 _movingTabButton.name = "BT_Moving";
                 _movingTabButton.text = "MOVE";
-                // _movingTabButton.clickable.clicked += Move;
+                _movingTabButton.clickable.clicked += Move;
+                
+                // Change styles
+                SetAllToolTabButtonStylesAsInactive();
+                SetTabButtonStyle(_movingTabButton, true);
             }
             
             AddVersionInfoVisualElement();
+        }
+        
+        private void SetAllToolTabButtonStylesAsInactive()
+        {
+            SetTabButtonStyle(_renameButton, false);
+            SetTabButtonStyle(_movingTabButton, false);
         }
 
         private void BindFilterToUi(ActiveFilter filter)
@@ -416,6 +456,20 @@ namespace UnityAssetProcessingTools.Editor
             _isFilterTab = false;
             _isToolsTab = true;
             InitUi();
+        }
+        
+        
+        
+        
+        
+        private void Rename()
+        {
+            
+        }
+
+        private void Move()
+        {
+            
         }
         
     }                                                                                                                                        
