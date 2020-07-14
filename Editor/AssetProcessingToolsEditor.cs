@@ -13,7 +13,7 @@ namespace UnityAssetProcessingTools.Editor
     {
         // private string _version = "v.0.0.1.20200710";
         
-        private const int WindowWidth = 350;
+        private const int WindowWidth = 1000;
         private const int WindowHeight = 800;
 
         private readonly StyleColor _colorTabActive = new StyleColor(new Color(0.45f, 0.45f, 0.45f));
@@ -22,7 +22,6 @@ namespace UnityAssetProcessingTools.Editor
 
         private bool _isFilterTab = true;
         private bool _isAllAssetsSubtab = true;
-        private bool _isAllAssetsExceptionsSubtab = true;
         private bool _isTexturesSubtab = false;
         private bool _isToolsTab = false;
         private bool _isRenamingSubtab = true;
@@ -50,12 +49,10 @@ namespace UnityAssetProcessingTools.Editor
         private Button _allAssetTypeTabButton;
         private Button _textureTypeTabButton;
         private VisualTreeAsset _filterAllAssetsVisualTreeAsset;
-        private VisualTreeAsset _filterAllAssetsIgnorelistVisualTreeAsset;
         private VisualTreeAsset _filterTexturesTreeAsset;
         private VisualElement _filterAllAssetsTabContentsVisualElement;
         private VisualElement _filterAllAssetsIgnorelistTabContentsVisualElement;
         private VisualElement _filterTexturesTabContentsVisualElement;
-        private Foldout _ignoreTypesFoldout;
         private Button _browse;
         private Label _pathLabel;
         private ScrollView _filterResultsScrollView;
@@ -190,23 +187,10 @@ namespace UnityAssetProcessingTools.Editor
             {
                 _filterAllAssetsVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterAllAssetsTab");
                 _filterAllAssetsVisualTreeAsset.CloneTree(_root);
+                
                 _filterAllAssetsTabContentsVisualElement = _root.Q<VisualElement>("VE_FilterAllAssetsTabContents");
                 _filterAllAssetsTabContentsVisualElement.style.flexShrink = 0;
                 _filterAllAssetsTabContentsVisualElement.style.flexGrow = 1;
-
-                if (_isAllAssetsExceptionsSubtab)
-                {
-                    _filterAllAssetsIgnorelistVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterAllAssetsIgnorelistTab");
-                    _filterAllAssetsIgnorelistVisualTreeAsset.CloneTree(_root);
-                    _filterAllAssetsIgnorelistTabContentsVisualElement =
-                        _root.Q<VisualElement>("VE_FilterAllAssetsIgnorelistTabContents");
-                    _filterAllAssetsIgnorelistTabContentsVisualElement.style.flexShrink = 0;
-                    _filterAllAssetsIgnorelistTabContentsVisualElement.style.flexGrow = 1;
-
-                    // Expand Ignore List foldout
-                    _ignoreTypesFoldout = _root.Q<Foldout>("FO_IgnoreTypes");
-                    _ignoreTypesFoldout.value = true;
-                }
                 
                 // Style update
                 SetAllFilterTabButtonStylesAsInactive();
@@ -218,10 +202,11 @@ namespace UnityAssetProcessingTools.Editor
             {
                 _filterTexturesTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterTexturesTab");
                 _filterTexturesTreeAsset.CloneTree(_root);
+                
                 _filterTexturesTabContentsVisualElement = _root.Q<VisualElement>("VE_FilterTexturesTabContents");
                 _filterTexturesTabContentsVisualElement.style.flexShrink = 0;
                 _filterTexturesTabContentsVisualElement.style.flexGrow = 1;
-                
+
                 // Style update
                 SetAllFilterTabButtonStylesAsInactive();
                 SetTabButtonStyle(_textureTypeTabButton, true);
@@ -316,7 +301,6 @@ namespace UnityAssetProcessingTools.Editor
         private void HideAllFilters()
         {
             _isAllAssetsSubtab = true;
-            _isAllAssetsExceptionsSubtab = false;
             _isTexturesSubtab = false;
         }
 
@@ -324,7 +308,6 @@ namespace UnityAssetProcessingTools.Editor
         {
             HideAllFilters();
             _isAllAssetsSubtab = true;
-            _isAllAssetsExceptionsSubtab = true;
             InitUi();
         }
         
@@ -568,12 +551,6 @@ namespace UnityAssetProcessingTools.Editor
 
         private void PopulateFilterResultsScrollView()
         {
-            // Contract the foldout list of ignored extensions if it exists
-            if(_ignoreTypesFoldout != null)
-            {
-                _ignoreTypesFoldout.value = false;
-            }
-            
             _filterResultsScrollView.Clear();
 
             var allAssetsRelativePaths = ProjectSearch.GetAllFileAssetRelativePaths();
