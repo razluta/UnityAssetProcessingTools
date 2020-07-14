@@ -293,8 +293,8 @@ namespace UnityAssetProcessingTools.Editor
             _wideButtonVisualTreeAsset.CloneTree(_root);
             _confirmFilterButton = _root.Q<Button>("BT_WideButton");
             _confirmFilterButton.name = "BT_ConfirmFilter";
-            _confirmFilterButton.text = "CONFIRM FILTER";
-            _confirmFilterButton.clickable.clicked += ConfirmFilter;
+            _confirmFilterButton.text = "CONFIRM FILTER LIST";
+            _confirmFilterButton.clickable.clicked += ConfirmFilterList;
 
             AddVersionInfoVisualElement();
             
@@ -592,12 +592,12 @@ namespace UnityAssetProcessingTools.Editor
                     String.Format("{0}% - Processing - {1}", percentage, assetName), 
                     fractionalValue);
 
+                // Entry Button
+                var resultHolder = new VisualElement();
                 var filterResultButton = new Button();
                 filterResultButton.text = assetName;
                 filterResultButton.tooltip = assetRelativePath;
                 filterResultButton.clickable.clicked += () => SelectCurrentFoundAsset(assetRelativePath);
-                
-                // Button Styling
                 filterResultButton.style.backgroundColor = new StyleColor(Color.clear);
                 filterResultButton.style.borderTopLeftRadius = 0;
                 filterResultButton.style.borderTopRightRadius = 0;
@@ -605,10 +605,28 @@ namespace UnityAssetProcessingTools.Editor
                 filterResultButton.style.borderBottomLeftRadius = 0;
                 filterResultButton.style.paddingTop = 3;
                 filterResultButton.style.paddingBottom = 3;
+                filterResultButton.style.flexGrow = 1;
                 
+                // Remove entry button
+                var removeEntryButton = new Button();
+                removeEntryButton.text = "X";
+                removeEntryButton.tooltip = "Exclude from list.";
+                removeEntryButton.style.flexShrink = 1;
+                removeEntryButton.style.borderTopLeftRadius = 0;
+                removeEntryButton.style.borderTopRightRadius = 0;
+                removeEntryButton.style.borderBottomRightRadius = 0;
+                removeEntryButton.style.borderBottomLeftRadius = 0;
+
+                // Style VE and add buttons to VE
+                resultHolder.style.flexDirection = new StyleEnum<FlexDirection>(FlexDirection.Row);
+                resultHolder.Add(removeEntryButton);
+                resultHolder.Add(filterResultButton);
+                
+                removeEntryButton.clickable.clicked += () => RemoveFilteredListEntryAsset(resultHolder);
+
                 if (ProjectSearch.IsAssetValidForFilter(assetRelativePath, _filter))
                 {
-                    _filterResultsScrollView.Add(filterResultButton);
+                    _filterResultsScrollView.Add(resultHolder);
                 }
             }
 
@@ -623,13 +641,18 @@ namespace UnityAssetProcessingTools.Editor
             EditorUtility.ClearProgressBar();
         }
 
+        private void RemoveFilteredListEntryAsset(VisualElement entryVisualElement)
+        {
+            _filterResultsScrollView.Remove(entryVisualElement);
+        }
+
         private void SelectCurrentFoundAsset(string assetPath)
         {
             var obj = AssetDatabase.LoadAssetAtPath(assetPath, typeof(Object));
             Selection.activeObject = obj;
         }
 
-        private void ConfirmFilter()
+        private void ConfirmFilterList()
         {
             _isFilterTab = false;
             _isToolsTab = true;

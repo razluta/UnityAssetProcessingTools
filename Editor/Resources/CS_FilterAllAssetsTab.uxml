@@ -11,6 +11,7 @@
                 <ui:TextField picking-mode="Ignore" label="name starts with:" value="filler text" style="-unity-text-align: upper-left;" />
                 <ui:TextField picking-mode="Ignore" label="name contains:" value="filler text" style="-unity-text-align: upper-left;" />
                 <ui:TextField picking-mode="Ignore" label="name ends with:" value="filler text" style="-unity-text-align: upper-left;" />
+                <ui:Toggle label="- include extension" value="true" />
                 <ui:TextField picking-mode="Ignore" label="disk size over XXXX KB:" value="filler text" style="-unity-text-align: upper-left;" />
             </ui:VisualElement>
         </ui:VisualElement>
