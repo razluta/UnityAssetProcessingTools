@@ -461,7 +461,7 @@ namespace UnityAssetProcessingTools.Editor
                 return;
             }
 
-            if (!path.StartsWith(applicationDataPath))
+            if (!ProjectSearch.IsPathInProject(path))
             {
                 EditorUtility.DisplayDialog(
                     "Error - Invalid path", 
