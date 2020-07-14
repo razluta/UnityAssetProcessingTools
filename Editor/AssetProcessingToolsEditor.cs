@@ -14,7 +14,7 @@ namespace UnityAssetProcessingTools.Editor
         // private string _version = "v.0.0.1.20200710";
         
         private const int WindowWidth = 1000;
-        private const int WindowHeight = 800;
+        private const int WindowHeight = 1000;
 
         private readonly StyleColor _colorTabActive = new StyleColor(new Color(0.45f, 0.45f, 0.45f));
         private readonly StyleColor _colorTabInactive = new StyleColor(new Color(0.34f, 0.34f, 0.34f));
@@ -36,7 +36,17 @@ namespace UnityAssetProcessingTools.Editor
         private Button _clearFilterButton;
         private Button _applyFilterButton;
         private Button _confirmFilterButton;
-        
+
+        // Includes
+        private Button _includeNameStartsWithButton;
+        private Foldout _includeNameStartsWithFields;
+        private Button _includeNameContainsButton;
+        private Foldout _includeNameContainsFields;
+        private Button _includeNameEndsWithButton;
+        private Foldout _includeNameEndsWithFields;
+        private Button _includeDiskSizeButton;
+        private Foldout _includeDiskSizeFields;
+
         private VisualElement _toolsTabsVisualElement;
         private VisualTreeAsset _tabButtonVisualTreeAsset;
         private VisualTreeAsset _filterTabVisualTreeAsset;
@@ -212,10 +222,27 @@ namespace UnityAssetProcessingTools.Editor
                 SetTabButtonStyle(_textureTypeTabButton, true);
             }
 
-            // Browse Button
+            // Include Browse Button
             _browse = _root.Q<Button>("BT_Browse");
             _browse.clickable.clicked += Browse;
             _pathLabel = _root.Q<Label>("LB_BrowsePath");
+            
+            // Include Name Starts With
+            _includeNameStartsWithButton = _root.Q<Button>("BT_IncludeNameStartsWith");
+            _includeNameStartsWithFields = _root.Q<Foldout>("FO_IncludeNameStartsWith");
+            _includeNameStartsWithButton.clickable.clicked += () => AddNewEntryToFoldout(_includeNameStartsWithFields);
+            
+            // Include Name Contains
+            _includeNameContainsButton = _root.Q<Button>("BT_IncludeNameContains");
+            _includeNameContainsFields = _root.Q<Foldout>("FO_IncludeNameContains");
+            
+            // Include Name Ends With
+            _includeNameEndsWithButton = _root.Q<Button>("BT_IncludeNameEndsWith");
+            _includeNameEndsWithFields = _root.Q<Foldout>("FO_IncludeNameEndsWith");
+            
+            // Include Disk Size
+            _includeDiskSizeButton = _root.Q<Button>("BT_IncludeDiskSize");
+            _includeDiskSizeFields = _root.Q<Foldout>("FO_IncludeDiskSize");
             
             // Apply Filter Button
             _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
@@ -616,6 +643,38 @@ namespace UnityAssetProcessingTools.Editor
             }
             
             EditorUtility.ClearProgressBar();
+        }
+
+        private void AddNewEntryToFoldout(Foldout foldout)
+        {
+            var newIncludeNameStartsWithVisualElement = new VisualElement();
+            newIncludeNameStartsWithVisualElement.style.flexDirection = new StyleEnum<FlexDirection>(FlexDirection.Row);
+            
+            var newIncludeNameStartsWithTextField = new TextField();
+            newIncludeNameStartsWithTextField.style.flexGrow = 1;
+            
+            var newIncludeNameStartsWithButton = new Button()
+            {
+                text = "X"
+            };
+            newIncludeNameStartsWithButton.style.borderTopLeftRadius = 0;
+            newIncludeNameStartsWithButton.style.borderTopRightRadius = 0;
+            newIncludeNameStartsWithButton.style.borderBottomRightRadius = 0;
+            newIncludeNameStartsWithButton.style.borderBottomLeftRadius = 0;
+            newIncludeNameStartsWithButton.clickable.clicked += () => 
+                RemoveVisualElementFromFoldout(
+                    newIncludeNameStartsWithVisualElement,
+                    foldout);
+            
+            newIncludeNameStartsWithVisualElement.Add(newIncludeNameStartsWithButton);
+            newIncludeNameStartsWithVisualElement.Add(newIncludeNameStartsWithTextField);
+            
+            foldout.Add(newIncludeNameStartsWithVisualElement);
+        }
+        
+        private void RemoveVisualElementFromFoldout(VisualElement visualElement, Foldout foldout)
+        {
+            foldout.Remove(visualElement);
         }
 
         private void RemoveFilteredListEntryAsset(VisualElement entryVisualElement)

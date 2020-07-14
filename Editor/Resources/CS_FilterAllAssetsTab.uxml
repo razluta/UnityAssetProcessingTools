@@ -9,17 +9,17 @@
                 <ui:Toggle label="recursively" value="true" />
                 <ui:Label text="... if they match the following conditions (leave empty to ignore) ..." style="white-space: normal;" />
                 <ui:Toggle label="(include extension)" value="true" />
-                <ui:Foldout text="name starts with:">
-                    <ui:Button text="Add New Field" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
+                <ui:Foldout text="name starts with:" name="FO_IncludeNameStartsWith">
+                    <ui:Button text="Add New Field" name="BT_IncludeNameStartsWith" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
                 </ui:Foldout>
-                <ui:Foldout text="name contains:">
-                    <ui:Button text="Add New Field" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
+                <ui:Foldout text="name contains:" name="FO_IncludeNameContains">
+                    <ui:Button text="Add New Field" name="BT_IncludeNameContains" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
                 </ui:Foldout>
-                <ui:Foldout text="name ends with:">
-                    <ui:Button text="Add New Field" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
+                <ui:Foldout text="name ends with:" name="FO_IncludeNameEndsWith">
+                    <ui:Button text="Add New Field" name="BT_IncludeNameEndsWith" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
                 </ui:Foldout>
-                <ui:Foldout text="disk size over XXXX KB:">
-                    <ui:Button text="Add New Field" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
+                <ui:Foldout text="disk size over XXXX KB:" name="FO_IncludeDiskSize">
+                    <ui:Button text="Add New Field" name="BT_IncludeDiskSize" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
                 </ui:Foldout>
             </ui:VisualElement>
         </ui:VisualElement>
