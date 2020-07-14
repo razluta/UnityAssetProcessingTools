@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
+using UnityAssetProcessingTools.AssetUtilities;
 
 namespace UnityAssetProcessingTools.Editor
 {
@@ -453,7 +454,7 @@ namespace UnityAssetProcessingTools.Editor
 
         private void Browse()
         {
-            var applicationDataPath = ProjectSearch.GetApplicationDataPath();
+            var applicationDataPath = PathUtilities.GetApplicationDataPath();
             
             var path = EditorUtility.OpenFolderPanel("", applicationDataPath, "");
             if (path.Length == 0)
@@ -461,7 +462,7 @@ namespace UnityAssetProcessingTools.Editor
                 return;
             }
 
-            if (!ProjectSearch.IsPathInProject(path))
+            if (!PathUtilities.IsPathInProject(path))
             {
                 EditorUtility.DisplayDialog(
                     "Error - Invalid path", 

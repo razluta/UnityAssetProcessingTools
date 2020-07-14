@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEditor;
+using UnityAssetProcessingTools.AssetUtilities;
 
 namespace UnityAssetProcessingTools
 {
@@ -20,9 +21,9 @@ namespace UnityAssetProcessingTools
             // Move asset to
             if (!String.IsNullOrWhiteSpace(movingConditions.AssetNewAbsolutePath))
             {
-                if (ProjectSearch.IsPathInProject(movingConditions.AssetNewAbsolutePath))
+                if (PathUtilities.IsPathInProject(movingConditions.AssetNewAbsolutePath))
                 {
-                    var assetNewRelativePath = ProjectSearch.GetRelativeAssetPath(
+                    var assetNewRelativePath = PathUtilities.GetRelativeAssetPath(
                         movingConditions.AssetNewAbsolutePath);
 
                     if (String.IsNullOrWhiteSpace(assetNewRelativePath))

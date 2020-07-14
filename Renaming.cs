@@ -89,7 +89,10 @@ namespace UnityAssetProcessingTools
             }
             
             // insert ... after ...
-            //  TODO
+            if (true)
+            {
+                //  TODO
+            }
             
             // uppercase all
             if (renamingConditions.UppercaseAll)

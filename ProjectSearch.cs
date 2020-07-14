@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityAssetProcessingTools.AssetUtilities;
 
 namespace UnityAssetProcessingTools
 {
@@ -24,7 +24,7 @@ namespace UnityAssetProcessingTools
             }
             
             var assetAbsolutePath = Path.Combine(
-                System.IO.Directory.GetParent(GetApplicationDataPath()).ToString(), 
+                System.IO.Directory.GetParent(PathUtilities.GetApplicationDataPath()).ToString(), 
                 assetRelativePath);
             
             // Make slashes consistent
@@ -122,7 +122,8 @@ namespace UnityAssetProcessingTools
             {
                 var relativeFilePath = AssetDatabase.GUIDToAssetPath(assetGuid);
                 
-                var unityProjectRootPath = System.IO.Directory.GetParent(GetApplicationDataPath()).ToString();
+                var unityProjectRootPath = System.IO.Directory.GetParent(
+                    PathUtilities.GetApplicationDataPath()).ToString();
                 var absoluteFilePath = Path.Combine(unityProjectRootPath, relativeFilePath);
 
                 if (!System.IO.File.Exists(absoluteFilePath))
@@ -134,49 +135,6 @@ namespace UnityAssetProcessingTools
             }
 
             return allAssetsRelativePaths;
-        }
-        
-        public static string GetApplicationDataPath()
-        {
-            return Application.dataPath.ToString();
-        }
-
-        public static bool IsPathInProject(string path)
-        {
-            if (String.IsNullOrWhiteSpace(path))
-            {
-                return false;
-            }
-            
-            var uniformPath = Path.GetFullPath(path);
-            var uniformProjectPath = Path.GetFullPath(GetApplicationDataPath());
-
-            return uniformPath.Contains(uniformProjectPath);
-        }
-
-        public static string GetRelativeAssetPath(string absoluteAssetPath)
-        {
-            var relativeAssetPath = string.Empty;
-
-            if (!File.Exists(absoluteAssetPath))
-            {
-                return relativeAssetPath;
-            }
-
-            var uniformAbsolutePath = Path.GetFullPath(absoluteAssetPath);
-            var uniformProjectPath = Path.GetFullPath(GetApplicationDataPath());
-
-            if (!uniformAbsolutePath.Contains(uniformProjectPath))
-            {
-                return relativeAssetPath;
-            }
-            
-            var stringSplit = uniformProjectPath.Split(
-                new string[] {uniformAbsolutePath}, 
-                StringSplitOptions.None);
-            relativeAssetPath = stringSplit[1].Substring(1);
-
-            return relativeAssetPath;
         }
 
         private static string[] GetAllFileAssetGuids()
