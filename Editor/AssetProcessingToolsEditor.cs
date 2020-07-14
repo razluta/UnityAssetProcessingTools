@@ -54,6 +54,7 @@ namespace UnityAssetProcessingTools.Editor
         private VisualElement _filterAllAssetsTabContentsVisualElement;
         private VisualElement _filterAllAssetsIgnorelistTabContentsVisualElement;
         private VisualElement _filterTexturesTabContentsVisualElement;
+        private Foldout _ignoreTypesFoldout;
         private Button _browse;
         private Label _pathLabel;
         private ScrollView _filterResultsScrollView;
@@ -200,6 +201,10 @@ namespace UnityAssetProcessingTools.Editor
                         _root.Q<VisualElement>("VE_FilterAllAssetsIgnorelistTabContents");
                     _filterAllAssetsIgnorelistTabContentsVisualElement.style.flexShrink = 0;
                     _filterAllAssetsIgnorelistTabContentsVisualElement.style.flexGrow = 1;
+
+                    // Expand Ignore List foldout
+                    _ignoreTypesFoldout = _root.Q<Foldout>("FO_IgnoreTypes");
+                    _ignoreTypesFoldout.value = true;
                 }
                 
                 // Style update
@@ -562,6 +567,12 @@ namespace UnityAssetProcessingTools.Editor
 
         private void PopulateFilterResultsScrollView()
         {
+            // Contract the foldout list of ignored extensions if it exists
+            if(_ignoreTypesFoldout != null)
+            {
+                _ignoreTypesFoldout.value = false;
+            }
+            
             _filterResultsScrollView.Clear();
 
             var allAssetsRelativePaths = ProjectSearch.GetAllFileAssetRelativePaths();

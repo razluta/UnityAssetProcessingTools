@@ -18,6 +18,11 @@ namespace UnityAssetProcessingTools
         {
             Debug.Log("Asset relative path: " + assetRelativePath);
             
+            if (filter == null)
+            {
+                return false;
+            }
+            
             var assetAbsolutePath = Path.Combine(
                 System.IO.Directory.GetParent(GetApplicationDataPath()).ToString(), 
                 assetRelativePath);

@@ -2,7 +2,7 @@
     <ui:VisualElement name="VE_FilterAllAssetsIgnorelistTabContents" style="flex-grow: 1; border-left-width: 0; border-right-width: 0; border-top-width: 1.5px; border-bottom-width: 1.5px; border-top-color: rgb(36, 36, 36); border-bottom-color: rgb(36, 36, 36);">
         <ui:VisualElement name="VE_ContentsBackground" style="margin-left: 6px; margin-right: 6px; margin-top: 6px; margin-bottom: 6px; flex-grow: 1; padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);">
             <ui:VisualElement style="flex-grow: 1;">
-                <ui:Foldout text="Ignore the following asset types:" value="false" style="margin-top: 6px;">
+                <ui:Foldout text="Ignore the following asset types:" value="false" name="FO_IgnoreTypes" style="margin-top: 6px;">
                     <ui:VisualElement style="flex-direction: row;">
                         <ui:Toggle />
                         <ui:Label text="Animations (.anim, .controller)" />
