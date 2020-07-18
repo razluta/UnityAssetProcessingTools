@@ -19,3 +19,21 @@ A set of Unity Asset Processing Tools like: renaming, resizing, type conversion,
 }
 ```
 *  *  *  *  *
+## Architecture
+Below is a high level explanation of how to tools are architected.
+
+The primary components of the tools are:
+- AssetProcessingToolsEditor class that inherits from Unity.EditorWindow for creating a GUI for the user to interact with
+- AssetProcessingTools static class that orchestrates the ActiveFilter usage (getting, setting).
+- ActiveFilter class with several properties (path, recursiveness, etc.) that define the instance of the filter as used with the data
+
+- ProjectSearch static class for utilities to check if an assets fullfills a filter's conditions and other useful project wide related searches (getting files in a path, etc.)
+- PathUtilities static class for utilities to interact with the OS level path string searches
+
+- Renaming class with several properties (prefix, suffix) that define the renaming instance 
+- RenamingUtilities static class that uses rules from a Renaming instance to perform a safe asset rename
+- Moving class with several properties (new path) that define the moving instance 
+- MovingUtilities static class that uses rules from a Moving instance to perform a safe asset move
+
+When the user launches the tools, the following steps happen:
+- 
