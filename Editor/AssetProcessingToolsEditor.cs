@@ -235,6 +235,7 @@ namespace UnityAssetProcessingTools.Editor
             // Include Name Contains
             _includeNameContainsButton = _root.Q<Button>("BT_IncludeNameContains");
             _includeNameContainsFields = _root.Q<Foldout>("FO_IncludeNameContains");
+            _includeNameContainsButton.clickable.clicked += () => AddNewEntryToFoldout(_includeNameContainsFields);
             
             // Include Name Ends With
             _includeNameEndsWithButton = _root.Q<Button>("BT_IncludeNameEndsWith");
