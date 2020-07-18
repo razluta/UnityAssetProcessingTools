@@ -36,4 +36,5 @@ The primary components of the tools are:
 - MovingUtilities static class that uses rules from a Moving instance to perform a safe asset move
 
 When the user launches the tools, the following steps happen:
-- 
+- first, ...
+
