@@ -240,6 +240,7 @@ namespace UnityAssetProcessingTools.Editor
             // Include Name Ends With
             _includeNameEndsWithButton = _root.Q<Button>("BT_IncludeNameEndsWith");
             _includeNameEndsWithFields = _root.Q<Foldout>("FO_IncludeNameEndsWith");
+            _includeNameEndsWithButton.clickable.clicked += () => AddNewEntryToFoldout(_includeNameEndsWithFields);
             
             // Include Disk Size
             _includeDiskSizeButton = _root.Q<Button>("BT_IncludeDiskSize");
