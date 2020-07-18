@@ -44,7 +44,7 @@ namespace UnityAssetProcessingTools.Editor
         private Foldout _includeNameContainsFields;
         private Button _includeNameEndsWithButton;
         private Foldout _includeNameEndsWithFields;
-        private Button _includeDiskSizeButton;
+        private TextField _includeDiskSizeTextField;
         private Foldout _includeDiskSizeFields;
 
         private VisualElement _toolsTabsVisualElement;
@@ -243,9 +243,9 @@ namespace UnityAssetProcessingTools.Editor
             _includeNameEndsWithButton.clickable.clicked += () => AddNewEntryToFoldout(_includeNameEndsWithFields);
             
             // Include Disk Size
-            _includeDiskSizeButton = _root.Q<Button>("BT_IncludeDiskSize");
             _includeDiskSizeFields = _root.Q<Foldout>("FO_IncludeDiskSize");
-            
+            _includeDiskSizeTextField = _root.Q<TextField>("TF_IncludeDiskSize");
+
             // Apply Filter Button
             _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
             _wideButtonVisualTreeAsset.CloneTree(_root);
