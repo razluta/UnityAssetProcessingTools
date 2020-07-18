@@ -88,16 +88,16 @@
                 <ui:Label text="... if they match the following conditions (leave empty to ignore) ..." style="white-space: normal;" />
                 <ui:Toggle label="(include extension)" value="true" />
                 <ui:Foldout text="name starts with:" name="FO_ExcludeNameStartsWith">
-                    <ui:Button text="Add New Field" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
+                    <ui:Button text="Add New Field" name="BT_ExcludeNameStartsWith" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
                 </ui:Foldout>
                 <ui:Foldout text="name contains:" name="FO_ExcludeNameContains">
-                    <ui:Button text="Add New Field" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
+                    <ui:Button text="Add New Field" name="BT_ExcludeNameContains" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
                 </ui:Foldout>
                 <ui:Foldout text="name ends with:" name="FO_ExcludeNameEndsWith">
-                    <ui:Button text="Add New Field" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
+                    <ui:Button text="Add New Field" name="BT_ExcludeNameEndsWith" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
                 </ui:Foldout>
                 <ui:Foldout text="disk size over XXXX KB:" name="FO_ExcludeDiskSize">
-                    <ui:TextField picking-mode="Ignore" value="filler text" name="TF_IncludeDiskSize" />
+                    <ui:TextField picking-mode="Ignore" value="filler text" name="TF_ExcludeDiskSize" />
                 </ui:Foldout>
             </ui:VisualElement>
         </ui:VisualElement>
