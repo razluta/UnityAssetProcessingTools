@@ -46,6 +46,16 @@ namespace UnityAssetProcessingTools.Editor
         private Foldout _includeNameEndsWithFields;
         private TextField _includeDiskSizeTextField;
         private Foldout _includeDiskSizeFields;
+        
+        // Excludes
+        private Button _excludeNameStartsWithButton;
+        private Foldout _excludeNameStartsWithFields;
+        private Button _excludeNameContainsButton;
+        private Foldout _excludeNameContainsFields;
+        private Button _excludeNameEndsWithButton;
+        private Foldout _excludeNameEndsWithFields;
+        private TextField _excludeDiskSizeTextField;
+        private Foldout _excludeDiskSizeFields;
 
         private VisualElement _toolsTabsVisualElement;
         private VisualTreeAsset _tabButtonVisualTreeAsset;
@@ -253,6 +263,25 @@ namespace UnityAssetProcessingTools.Editor
             _applyFilterButton.name = "BT_ApplyFilter";
             _applyFilterButton.text = "APPLY FILTER";
             _applyFilterButton.clickable.clicked += ApplyFilter;
+            
+            // Exclude Name Starts With
+            _excludeNameStartsWithButton = _root.Q<Button>("BT_ExcludeNameStartsWith");
+            _excludeNameStartsWithFields = _root.Q<Foldout>("FO_ExcludeNameStartsWith");
+            _excludeNameStartsWithButton.clickable.clicked += () => AddNewEntryToFoldout(_excludeNameStartsWithFields);
+            
+            // Exclude Name Contains
+            _excludeNameContainsButton = _root.Q<Button>("BT_ExcludeNameContains");
+            _excludeNameContainsFields = _root.Q<Foldout>("FO_ExcludeNameContains");
+            _excludeNameContainsButton.clickable.clicked += () => AddNewEntryToFoldout(_excludeNameContainsFields);
+            
+            // Exclude Name Ends With
+            _excludeNameEndsWithButton = _root.Q<Button>("BT_ExcludeNameEndsWith");
+            _excludeNameEndsWithFields = _root.Q<Foldout>("FO_ExcludeNameEndsWith");
+            _excludeNameEndsWithButton.clickable.clicked += () => AddNewEntryToFoldout(_excludeNameEndsWithFields);
+            
+            // Include Disk Size
+            _excludeDiskSizeFields = _root.Q<Foldout>("FO_ExcludeDiskSize");
+            _excludeDiskSizeTextField = _root.Q<TextField>("TF_ExcludeDiskSize");
             
             // Filter results
             var filterHolder = new VisualElement();
