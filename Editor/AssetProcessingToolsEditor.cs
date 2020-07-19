@@ -35,6 +35,7 @@ namespace UnityAssetProcessingTools.Editor
         private Button _saveFilterButton;
         private Button _clearFilterButton;
         private Button _applyFilterButton;
+        private Button _clearFilterListButton;
         private Button _confirmFilterButton;
 
         // Includes
@@ -68,9 +69,10 @@ namespace UnityAssetProcessingTools.Editor
         private VisualElement _assetTypesVisualElement;
         private Button _allAssetTypeTabButton;
         private Button _textureTypeTabButton;
-        private VisualTreeAsset _filterAllAssetsVisualTreeAsset;
+        private VisualTreeAsset _filterAllAssetsColumn01VisualTreeAsset;
+        private VisualTreeAsset _filterAllAssetsColumn02VisualTreeAsset;
+        private VisualTreeAsset _filterAllAssetsColumn03VisualTreeAsset;
         private VisualTreeAsset _filterTexturesTreeAsset;
-        private VisualElement _filterAllAssetsTabContentsVisualElement;
         private VisualElement _filterAllAssetsIgnorelistTabContentsVisualElement;
         private VisualElement _filterTexturesTabContentsVisualElement;
         private Button _browse;
@@ -205,12 +207,22 @@ namespace UnityAssetProcessingTools.Editor
             // Filter All Assets Tab Contents
             if (_isAllAssetsSubtab)
             {
-                _filterAllAssetsVisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterAllAssetsTab");
-                _filterAllAssetsVisualTreeAsset.CloneTree(_root);
+                var allAssetsVisualElement = new VisualElement();
+                allAssetsVisualElement.style.flexShrink = 0;
+                allAssetsVisualElement.style.flexGrow = 1;
+                allAssetsVisualElement.name = "VE_FilterAllAssetsTab";
+                allAssetsVisualElement.style.flexDirection = new StyleEnum<FlexDirection>(FlexDirection.Row);
                 
-                _filterAllAssetsTabContentsVisualElement = _root.Q<VisualElement>("VE_FilterAllAssetsTabContents");
-                _filterAllAssetsTabContentsVisualElement.style.flexShrink = 0;
-                _filterAllAssetsTabContentsVisualElement.style.flexGrow = 1;
+                _filterAllAssetsColumn01VisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterAllAssetsTab_Column01");
+                _filterAllAssetsColumn01VisualTreeAsset.CloneTree(allAssetsVisualElement);
+                
+                _filterAllAssetsColumn02VisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterAllAssetsTab_Column02");
+                _filterAllAssetsColumn02VisualTreeAsset.CloneTree(allAssetsVisualElement);
+                
+                _filterAllAssetsColumn03VisualTreeAsset = Resources.Load<VisualTreeAsset>("CS_FilterAllAssetsTab_Column03");
+                _filterAllAssetsColumn03VisualTreeAsset.CloneTree(allAssetsVisualElement);
+                
+                _root.Add(allAssetsVisualElement);
                 
                 // Style update
                 SetAllFilterTabButtonStylesAsInactive();
@@ -331,6 +343,14 @@ namespace UnityAssetProcessingTools.Editor
             
             _root.Add(filterHolder);
 
+            // Clear Filter List Button
+            _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
+            _wideButtonVisualTreeAsset.CloneTree(_root);
+            _clearFilterListButton = _root.Q<Button>("BT_WideButton");
+            _clearFilterListButton.name = "BT_ClearFilterList";
+            _clearFilterListButton.text = "CLEAR FILTER LIST";
+            _clearFilterListButton.clickable.clicked += CLearFilterListButton;
+            
             // Confirm Filter Button
             _wideButtonVisualTreeAsset = Resources.Load<VisualTreeAsset>("BT_WideButton");
             _wideButtonVisualTreeAsset.CloneTree(_root);
@@ -717,6 +737,13 @@ namespace UnityAssetProcessingTools.Editor
         {
             var obj = AssetDatabase.LoadAssetAtPath(assetPath, typeof(Object));
             Selection.activeObject = obj;
+        }
+
+        private void CLearFilterListButton()
+        {
+            _filterResultsScrollView.Clear();
+            var foundAsset = new Label {text = "0 results found"};
+            _filterResultsScrollView.Add(foundAsset);
         }
 
         private void ConfirmFilterList()
