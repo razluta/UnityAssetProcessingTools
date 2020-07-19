@@ -1,0 +1,62 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="VE_SecondColumn" style="margin-left: 6px; margin-right: 6px; margin-top: 6px; margin-bottom: 6px; flex-grow: 1; padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); flex-shrink: 1; flex-basis: 50%;">
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:Label text="IGNORED ASSSET TYPES (EXTENSIONS)..." name="LB_IgnoreTypes" style="-unity-text-align: upper-left; margin-top: 0; -unity-font-style: bold;" />
+            <ui:ListView focusable="True" name="LV_IgnoreTypes" style="flex-grow: 1; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 1px; border-bottom-width: 1px; margin-top: 2px; margin-bottom: 2px; border-left-width: 1px; border-right-width: 1px; padding-left: 2px; padding-right: 2px; padding-top: 3px; padding-bottom: 2px; margin-left: 2px; margin-right: 2px;">
+                <ui:VisualElement style="height: 3px;" />
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Toggle />
+                    <ui:Label text="Animations (.anim, .controller)" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Toggle value="true" />
+                    <ui:Label text="AssetBundle or Addressable Assets (.asset, .bin)" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Toggle />
+                    <ui:Label text="Materials (.mat)" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Toggle />
+                    <ui:Label text="Models (.fbx, .obj)" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Toggle />
+                    <ui:Label text="Prefabs (.prefab)" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Toggle value="true" />
+                    <ui:Label text="Scenes (.unity)" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Toggle value="true" />
+                    <ui:Label text="Scripts (.cs)" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Toggle value="true" />
+                    <ui:Label text="Assembly Definitions (.asmdef)" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Toggle />
+                    <ui:Label text="ShaderGraphs (.shadergraph)" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Toggle value="false" />
+                    <ui:Label text="Sprite Atlas (.spriteatlas)" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Toggle />
+                    <ui:Label text="Audio Sources (.mp3, .wav)" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Toggle />
+                    <ui:Label text="Textures (.png, .psd, .jpg, .tga, .tif)" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Toggle value="true" />
+                    <ui:Label text="UI Toolkit Assets (.uxml, .uss)" />
+                </ui:VisualElement>
+            </ui:ListView>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
