@@ -20,7 +20,7 @@ A set of Unity Asset Processing Tools like: renaming, resizing, type conversion,
 ```
 *  *  *  *  *
 ## Architecture
-Below is a high level explanation of how to tools are architected.
+Below is a high level explanation of how the tools are architected.
 
 The primary components of the tools are:
 - **AssetProcessingToolsEditor** class that inherits from **Unity.EditorWindow** for creating a GUI for the user to interact with
